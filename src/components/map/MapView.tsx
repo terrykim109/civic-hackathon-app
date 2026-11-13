@@ -1,27 +1,54 @@
 import { useEffect, useRef, useState } from 'react'
-import { Map as MapLibreMap, NavigationControl } from 'maplibre-gl'
-import { MAP_VIEWPORT } from '../../data/mapLocation'
-import type { MapLoadState } from '../../types/map'
+import { Map as MapLibreMap } from 'maplibre-gl'
+import {
+  CASE_STUDY_LABEL,
+  MAP_VIEWPORT,
+  viewportAtCenter,
+} from '../../data/mapLocation'
+import { requestBrowserLngLat } from '../../data/userLocation'
+import type { MapCameraApi, MapLoadState, MapViewport } from '../../types/map'
 import { ensureBuildingExtrusions } from './buildingExtrusion'
-import { configureMapNavigation } from './cameraNavigation'
+import {
+  configureMapNavigation,
+  easeToHomeCamera,
+  easeZoomBy,
+  ZOOM_STEP,
+} from './cameraNavigation'
 import { MAP_STYLE_URL } from './maplibreSetup'
 import { resolvePlaceLabelFromMap } from './placeLabel'
 import styles from './MapView.module.css'
 
 interface MapViewProps {
   onPlaceLabelChange?: (label: string) => void
+  onCameraReady?: (camera: MapCameraApi | null) => void
+  onZoomChange?: (zoom: number) => void
 }
 
-export function MapView({ onPlaceLabelChange }: MapViewProps) {
+export function MapView({
+  onPlaceLabelChange,
+  onCameraReady,
+  onZoomChange,
+}: MapViewProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const mapRef = useRef<MapLibreMap | null>(null)
+  const homeViewportRef = useRef<MapViewport>(MAP_VIEWPORT)
   const onPlaceLabelChangeRef = useRef(onPlaceLabelChange)
+  const onCameraReadyRef = useRef(onCameraReady)
+  const onZoomChangeRef = useRef(onZoomChange)
   const [loadState, setLoadState] = useState<MapLoadState>('loading')
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
   useEffect(() => {
     onPlaceLabelChangeRef.current = onPlaceLabelChange
   }, [onPlaceLabelChange])
+
+  useEffect(() => {
+    onCameraReadyRef.current = onCameraReady
+  }, [onCameraReady])
+
+  useEffect(() => {
+    onZoomChangeRef.current = onZoomChange
+  }, [onZoomChange])
 
   useEffect(() => {
     if (!containerRef.current || mapRef.current) return
@@ -50,10 +77,12 @@ export function MapView({ onPlaceLabelChange }: MapViewProps) {
 
     configureMapNavigation(map)
 
-    map.addControl(
-      new NavigationControl({ visualizePitch: true, showCompass: true }),
-      'bottom-right',
-    )
+    const cameraApi: MapCameraApi = {
+      zoomIn: () => easeZoomBy(map, ZOOM_STEP),
+      zoomOut: () => easeZoomBy(map, -ZOOM_STEP),
+      resetView: () => easeToHomeCamera(map, homeViewportRef.current),
+      getZoom: () => map.getZoom(),
+    }
 
     const publishPlaceLabel = () => {
       if (cancelled) return
@@ -66,17 +95,41 @@ export function MapView({ onPlaceLabelChange }: MapViewProps) {
       labelTimer = setTimeout(publishPlaceLabel, 280)
     }
 
+    const publishZoom = () => {
+      if (cancelled) return
+      onZoomChangeRef.current?.(map.getZoom())
+    }
+
     const applyBuildings = () => {
       if (cancelled) return
       ensureBuildingExtrusions(map)
+    }
+
+    const applyUserHomeIfAvailable = async () => {
+      const lngLat = await requestBrowserLngLat()
+      if (cancelled) return
+
+      if (lngLat) {
+        homeViewportRef.current = viewportAtCenter(lngLat)
+        easeToHomeCamera(map, homeViewportRef.current)
+        return
+      }
+
+      // Permission denied / unavailable — keep case-study home and label hint.
+      homeViewportRef.current = MAP_VIEWPORT
+      onPlaceLabelChangeRef.current?.(CASE_STUDY_LABEL)
+      publishPlaceLabel()
     }
 
     const onLoad = () => {
       if (cancelled) return
       applyBuildings()
       publishPlaceLabel()
+      publishZoom()
+      onCameraReadyRef.current?.(cameraApi)
       setLoadState('ready')
       setErrorMessage(null)
+      void applyUserHomeIfAvailable()
     }
 
     const onError = () => {
@@ -88,6 +141,8 @@ export function MapView({ onPlaceLabelChange }: MapViewProps) {
     map.on('load', onLoad)
     map.on('style.load', applyBuildings)
     map.on('moveend', schedulePlaceLabel)
+    map.on('zoom', publishZoom)
+    map.on('zoomend', publishZoom)
     map.on('error', onError)
 
     mapRef.current = map
@@ -95,9 +150,12 @@ export function MapView({ onPlaceLabelChange }: MapViewProps) {
     return () => {
       cancelled = true
       if (labelTimer !== undefined) clearTimeout(labelTimer)
+      onCameraReadyRef.current?.(null)
       map.off('load', onLoad)
       map.off('style.load', applyBuildings)
       map.off('moveend', schedulePlaceLabel)
+      map.off('zoom', publishZoom)
+      map.off('zoomend', publishZoom)
       map.off('error', onError)
       map.remove()
       mapRef.current = null

@@ -17,3 +17,12 @@ export interface MapViewport {
 }
 
 export type MapLoadState = 'loading' | 'ready' | 'error'
+
+/** Imperative camera actions bound to a single MapLibre instance. */
+export interface MapCameraApi {
+  zoomIn: () => void
+  zoomOut: () => void
+  /** Restores home centre, zoom, pitch and bearing (focus neighbourhood). */
+  resetView: () => void
+  getZoom: () => number
+}

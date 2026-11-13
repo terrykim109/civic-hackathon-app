@@ -45,9 +45,9 @@ MapLibre camera terms:
 | `pitch` | Tilt in degrees (0 = top-down; higher = more horizon) |
 | `bearing` | Rotation in degrees clockwise from north |
 
-Home view is centralized in `MAP_VIEWPORT` (`pitch: 52`, `bearing: -32`, same Kennedy/Danforth centre, `zoom: 16.2`). Limits: zoom 12–18, pitch 0–60.
+Home framing (pitch/bearing/zoom/limits) is centralized in `MAP_VIEWPORT`. After map load, `requestBrowserLngLat` may replace the home **centre** with the device location; reset uses that home. If geolocation is denied or unavailable, home stays at the Kennedy/Danforth case-study centre (`CASE_STUDY_CENTER`).
 
-`configureMapNavigation` enables pan, scroll zoom, drag-rotate, keyboard, touch zoom/rotate, and `touchPitch` once per map instance. Built-in `NavigationControl` exposes zoom plus compass/pitch (no custom camera buttons yet). Programmatic moves use `easeToHomeCamera` / `CAMERA_EASE_MS` without recreating the map.
+`configureMapNavigation` enables pan, scroll zoom, drag-rotate, keyboard, touch zoom/rotate, and `touchPitch` once per map instance. Floating `CameraControls` call `MapCameraApi` (`easeZoomBy` / `easeToHomeCamera`) on the same instance. Gesture rotate/pitch remain available on the canvas.
 
 ## 3D buildings (Commit 02)
 
@@ -72,7 +72,7 @@ Extrusions remain geographically aligned during pitch/bearing changes because th
 ## Current limitations
 
 - No backend, auth, AI, or municipal business data layers.
-- No decision markers, analysis panels, or custom camera-reset buttons yet.
+- No decision markers or analysis panels yet.
 - Building heights exist only where OpenMapTiles provides `render_height` (derived from OSM height / levels where available). Many footprints may be low or zero.
 - Tile availability depends on the public OpenFreeMap service.
 - Interactive rotate/pitch depends on pointer/touch hardware; visual verification of gestures may require a local browser.

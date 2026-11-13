@@ -1,34 +1,38 @@
-import type { MapViewport } from '../types/map'
+import type { LngLat, MapViewport } from '../types/map'
 
 /**
- * Static map focus for the Kennedy Road & Danforth Road neighbourhood
+ * Case-study fallback focus: Kennedy Road & Danforth Road neighbourhood
  * (Clairlea-Birchmount, Scarborough, Toronto).
  *
  * Centre is the midpoint of two address points verified via OpenStreetMap
- * Nominatim (static bake-in only — no runtime geocoding):
+ * Nominatim (static bake-in — used when browser geolocation is unavailable):
  *
  * - 411 Kennedy Road: 43.7152652, -79.2608120
  * - 636 Danforth Road: 43.7162100, -79.2605400
  *
  * This is a neighbourhood camera target, not a property boundary.
  */
-const KENNEDY_411: [number, number] = [-79.260812, 43.7152652]
-const DANFORTH_636: [number, number] = [-79.26054, 43.71621]
+const KENNEDY_411: LngLat = [-79.260812, 43.7152652]
+const DANFORTH_636: LngLat = [-79.26054, 43.71621]
 
 export const MAP_STYLE_URL = 'https://tiles.openfreemap.org/styles/liberty'
 
-/** Default / fallback chip label before tile place features resolve. */
-export const NEIGHBOURHOOD_LABEL = 'Kennedy Rd & Danforth Rd · Scarborough'
+/** Default chip label before place features / geolocation resolve. */
+export const NEIGHBOURHOOD_LABEL = 'Finding your area…'
+
+export const CASE_STUDY_CENTER: LngLat = [
+  (KENNEDY_411[0] + DANFORTH_636[0]) / 2,
+  (KENNEDY_411[1] + DANFORTH_636[1]) / 2,
+]
+
+export const CASE_STUDY_LABEL = 'Kennedy Rd & Danforth Rd · Scarborough'
 
 /**
- * Elevated 3D home camera. Change pitch / bearing / zoom here — MapView reads
- * this object once at map construction and does not recreate the map.
+ * Default elevated camera framing. Centre is replaced by the user’s location
+ * when geolocation succeeds; otherwise CASE_STUDY_CENTER is used.
  */
 export const MAP_VIEWPORT: MapViewport = {
-  center: [
-    (KENNEDY_411[0] + DANFORTH_636[0]) / 2,
-    (KENNEDY_411[1] + DANFORTH_636[1]) / 2,
-  ],
+  center: CASE_STUDY_CENTER,
   zoom: 16.2,
   /** ~50–55° keeps extrusions readable without extreme foreshortening. */
   pitch: 52,
@@ -40,8 +44,13 @@ export const MAP_VIEWPORT: MapViewport = {
   maxPitch: 60,
 }
 
-/** Shared ease options for programmatic camera moves (reset comes in a later commit). */
+/** Shared ease duration for home-camera reset / neighbourhood focus. */
 export const CAMERA_EASE_MS = 1100
+
+/** Build a home viewport at an arbitrary centre, keeping elevated framing. */
+export function viewportAtCenter(center: LngLat): MapViewport {
+  return { ...MAP_VIEWPORT, center }
+}
 
 /** Invariant checks used by tests and as documentation of expected ranges. */
 export function assertMapViewportValid(viewport: MapViewport): void {

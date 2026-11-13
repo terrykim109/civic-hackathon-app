@@ -35,11 +35,6 @@
   border-color: rgba(122, 48, 36, 0.22);
 }
 
-.root :global(.maplibregl-ctrl-bottom-right) {
-  right: 1rem;
-  bottom: 1rem;
-}
-
 .root :global(.maplibregl-ctrl-bottom-left) {
   left: 1rem;
   bottom: 1rem;

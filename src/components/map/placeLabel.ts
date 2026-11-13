@@ -1,5 +1,5 @@
 import type { Map as MapLibreMap } from 'maplibre-gl'
-import { NEIGHBOURHOOD_LABEL } from '../../data/mapLocation'
+import { CASE_STUDY_LABEL } from '../../data/mapLocation'
 
 interface PlaceFeatureLike {
   geometry?: {
@@ -77,7 +77,7 @@ function pointDistanceSq(
 /** Pure helper — pick the best local label from ranked candidates. */
 export function pickPlaceLabel(
   candidates: PlaceCandidate[],
-  fallback = NEIGHBOURHOOD_LABEL,
+  fallback = CASE_STUDY_LABEL,
 ): string {
   if (candidates.length === 0) return fallback
 
@@ -110,7 +110,7 @@ export function pickPlaceLabel(
  */
 export function resolvePlaceLabelFromMap(map: MapLibreMap): string {
   if (!map.getSource('openmaptiles') || !map.isStyleLoaded()) {
-    return NEIGHBOURHOOD_LABEL
+    return CASE_STUDY_LABEL
   }
 
   const center = map.getCenter()

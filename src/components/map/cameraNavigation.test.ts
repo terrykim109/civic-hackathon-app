@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { CAMERA_EASE_MS, MAP_VIEWPORT } from '../../data/mapLocation'
+import { ZOOM_EASE_MS, ZOOM_STEP, clampZoom } from './cameraNavigation'
 
 describe('camera navigation config', () => {
   it('keeps the home pitch in the elevated 50–55° band', () => {
@@ -20,8 +21,16 @@ describe('camera navigation config', () => {
     expect(MAP_VIEWPORT.maxPitch).toBeLessThanOrEqual(85)
   })
 
-  it('keeps ease duration in a smooth interactive range', () => {
+  it('keeps ease durations in a smooth interactive range', () => {
     expect(CAMERA_EASE_MS).toBeGreaterThanOrEqual(600)
     expect(CAMERA_EASE_MS).toBeLessThanOrEqual(2000)
+    expect(ZOOM_EASE_MS).toBeGreaterThanOrEqual(200)
+    expect(ZOOM_EASE_MS).toBeLessThan(CAMERA_EASE_MS)
+  })
+
+  it('clamps zoom steps inside min/max', () => {
+    expect(clampZoom(11, 12, 18)).toBe(12)
+    expect(clampZoom(19, 12, 18)).toBe(18)
+    expect(clampZoom(16.2 + ZOOM_STEP, 12, 18)).toBe(17.2)
   })
 })

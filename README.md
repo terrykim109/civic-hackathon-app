@@ -1,8 +1,6 @@
 # CivicSync
 
-Map-first municipal decision explorer focused on the Kennedy Road and Danforth Road neighbourhood in Scarborough, Toronto.
-
-**Current scope (Commit 01):** React + TypeScript app shell with an interactive MapLibre map. Decision markers, 3D buildings, and analysis panels are intentionally not included yet.
+Map-first municipal decision explorer.
 
 ## Technology
 
@@ -45,7 +43,7 @@ Open the printed local URL (typically `http://localhost:5173`).
 - 3D buildings use OpenMapTiles `render_height` only where present; missing heights are treated as 0 (not invented).
 - No municipal decision markers or side panels yet.
 - Map tiles require network access to OpenFreeMap.
-- Camera centre is a static neighbourhood focus, not a surveyed parcel.
+- Camera centre is not a surveyed parcel.
 
 ## Attribution
 
