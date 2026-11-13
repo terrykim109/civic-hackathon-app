@@ -1,0 +1,27 @@
+:root {
+  /* Visual foundation aligned to the CivicLens reference:
+     warm ivory surfaces, soft floating panels, deep forest accents. */
+  --ink: #1a221e;
+  --ink-muted: #4a554e;
+  --ink-soft: #6b756f;
+  --panel-bg: rgba(255, 252, 247, 0.92);
+  --panel-bg-strong: rgba(255, 253, 249, 0.97);
+  --panel-solid: #fffdf9;
+  --border-soft: rgba(36, 48, 42, 0.1);
+  --border-strong: rgba(36, 48, 42, 0.16);
+  --accent: #1f4a3f;
+  --accent-sage: #6f8578;
+  --map-fallback: #e4ddd2;
+  --shadow-panel:
+    0 1px 2px rgba(28, 24, 20, 0.04),
+    0 8px 24px rgba(28, 24, 20, 0.08);
+  --shadow-float:
+    0 2px 4px rgba(28, 24, 20, 0.03),
+    0 18px 40px rgba(28, 24, 20, 0.12);
+  --radius-md: 16px;
+  --radius-lg: 22px;
+  --font-display: 'Fraunces', 'Iowan Old Style', 'Palatino Linotype', serif;
+  --font-body: 'Source Sans 3', 'Segoe UI', sans-serif;
+  --z-map: 0;
+  --z-ui: 10;
+}

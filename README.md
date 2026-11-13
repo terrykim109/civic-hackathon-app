@@ -1,2 +1,52 @@
-# civic-hackathon-app
-civic-hackathon
+# CivicLens
+
+Map-first municipal decision explorer focused on the Kennedy Road and Danforth Road neighbourhood in Scarborough, Toronto.
+
+**Current scope (Commit 01):** React + TypeScript app shell with an interactive MapLibre map. Decision markers, 3D buildings, and analysis panels are intentionally not included yet.
+
+## Technology
+
+| Package | Version | License |
+| --- | --- | --- |
+| React | 19.3.1 | MIT |
+| React DOM | 19.3.1 | MIT |
+| MapLibre GL JS | 6.18.0 | BSD-3-Clause |
+| Lucide React | 1.72.0 | ISC |
+| Vite | 8.3.8 | MIT |
+| TypeScript | 5.9.3 | Apache-2.0 |
+| `@vitejs/plugin-react` | 6.3.0 | MIT |
+| ESLint | 9.39.5 | MIT |
+| Vitest | 3.2.7 | MIT |
+
+Map style: [OpenFreeMap Liberty](https://tiles.openfreemap.org/styles/liberty).
+
+## Setup
+
+```bash
+npm install
+npm run dev
+```
+
+Open the printed local URL (typically `http://localhost:5173`).
+
+## Scripts
+
+| Command | Purpose |
+| --- | --- |
+| `npm run dev` | Start the Vite development server |
+| `npm run build` | Typecheck and create a production build |
+| `npm run preview` | Preview the production build |
+| `npm run typecheck` | Run TypeScript project references |
+| `npm run lint` | Run ESLint |
+| `npm test` | Run Vitest unit tests |
+
+## Limitations
+
+- Flat 2D map only — no 3D building extrusions yet.
+- No municipal decision markers or side panels yet.
+- Map tiles require network access to OpenFreeMap.
+- Camera centre is a static neighbourhood focus, not a surveyed parcel.
+
+## Attribution
+
+See [`docs/SOURCES.md`](docs/SOURCES.md). Architecture notes: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
