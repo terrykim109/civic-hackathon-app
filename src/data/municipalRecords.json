@@ -1,0 +1,384 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "toronto-wychwood-streetcar-2026",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -79.4229276898794,
+          43.6798890996564
+        ]
+      },
+      "properties": {
+        "municipality": "Toronto",
+        "published_date": null,
+        "decision_date": null,
+        "latitude": 43.6798890996564,
+        "longitude": -79.4229276898794,
+        "affected_area_geometry": null,
+        "location_precision": "approximate",
+        "location_role": "official_representative_point_not_impact_boundary",
+        "last_verified": "2026-11-13",
+        "verification_method": "AI-assisted extraction checked against retrieved official pages; no independent municipal review",
+        "summary_review_status": "source_checked_by_assistant",
+        "ai_generation_mode": "static_prepared_summary",
+        "source_gis_status": "Complete",
+        "ward_id": "12",
+        "agenda_item_id": null,
+        "decision_body": null,
+        "decision_id": "toronto-wychwood-streetcar-2026",
+        "title": "Wychwood Barns: streetcar play structure design",
+        "gis_project_name": "Wychwood Barns Park Playground Improvements",
+        "category": "park_design",
+        "record_type": "project_consultation",
+        "status": "design_consultation",
+        "source_modified_date": "2026-10-30",
+        "affected_area": "Wychwood Barns Park, 76 Wychwood Avenue; west-side play area",
+        "original_summary": null,
+        "plain_language_summary": "Residents can comment on the design of a streetcar-themed play structure planned for 2027.",
+        "potential_impact": [
+          {
+            "text": "The new structure would occupy the current sand-play area.",
+            "kind": "source_stated",
+            "evidence_id": "w1"
+          }
+        ],
+        "uncertainties": [
+          "Final design and installation timing may change.",
+          "The GIS 'Complete' label refers to the broader project; it does not describe this consultation.",
+          "No exact construction footprint or wider impact boundary supplied."
+        ],
+        "participation_options": [
+          {
+            "method": "online_survey",
+            "availability": "open",
+            "opens_on": "2026-10-30",
+            "deadline": "2026-11-16",
+            "deadline_precision": "date",
+            "deadline_timezone": "America/Toronto",
+            "deadline_time": null,
+            "url": "https://www.toronto.ca/city-government/planning-development/construction-new-facilities/improvements-expansion-redevelopment/wychwood-barns-park-playground-improvements/",
+            "evidence_id": "w2"
+          }
+        ],
+        "events": [
+          {
+            "type": "completed_phase",
+            "date": "2026-09",
+            "precision": "month",
+            "description": "Main playground opened."
+          },
+          {
+            "type": "planned_installation",
+            "date": null,
+            "description": "Spring to summer 2027; subject to change."
+          }
+        ],
+        "official_source_url": "https://www.toronto.ca/city-government/planning-development/construction-new-facilities/improvements-expansion-redevelopment/wychwood-barns-park-playground-improvements/",
+        "geometry_source_url": "https://open.toronto.ca/dataset/park-and-recreation-facility-projects/",
+        "data_confidence": {
+          "facts": "high_official_page",
+          "location": "medium_representative_point",
+          "participation": "high_as_of_verification",
+          "limitations": "Phase conflict retained; not a council agenda item."
+        },
+        "evidence": [
+          {
+            "evidence_id": "w1",
+            "source_url": "https://www.toronto.ca/city-government/planning-development/construction-new-facilities/improvements-expansion-redevelopment/wychwood-barns-park-playground-improvements/",
+            "locator": "Introduction and Project Timeline",
+            "supports": [
+              "plain_language_summary",
+              "potential_impact",
+              "events",
+              "status"
+            ]
+          },
+          {
+            "evidence_id": "w2",
+            "source_url": "https://www.toronto.ca/city-government/planning-development/construction-new-facilities/improvements-expansion-redevelopment/wychwood-barns-park-playground-improvements/",
+            "locator": "Get Involved > Online Survey > October 30 to November 16, 2026",
+            "supports": [
+              "participation_options"
+            ]
+          },
+          {
+            "evidence_id": "w3",
+            "source_url": "https://open.toronto.ca/dataset/park-and-recreation-facility-projects/",
+            "locator": "globalid 9e834435-e0b8-4559-a3eb-44e2b1924170",
+            "supports": [
+              "geometry",
+              "ward_id",
+              "source_gis_status"
+            ]
+          }
+        ],
+        "geometry_source_record": "9e834435-e0b8-4559-a3eb-44e2b1924170",
+        "participation_status": "open",
+        "can_participate_now": true,
+        "participation_deadline": "2026-11-16",
+        "participation_method": "online_survey",
+        "participation_url": "https://www.toronto.ca/city-government/planning-development/construction-new-facilities/improvements-expansion-redevelopment/wychwood-barns-park-playground-improvements/"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "toronto-apted-amenities-2026",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -79.576552994592,
+          43.7561846906294
+        ]
+      },
+      "properties": {
+        "municipality": "Toronto",
+        "published_date": null,
+        "decision_date": null,
+        "latitude": 43.7561846906294,
+        "longitude": -79.576552994592,
+        "affected_area_geometry": null,
+        "location_precision": "approximate",
+        "location_role": "official_representative_point_not_impact_boundary",
+        "last_verified": "2026-11-13",
+        "verification_method": "AI-assisted extraction checked against retrieved official pages; no independent municipal review",
+        "summary_review_status": "source_checked_by_assistant",
+        "ai_generation_mode": "static_prepared_summary",
+        "source_gis_status": "In progress",
+        "ward_id": "7",
+        "agenda_item_id": null,
+        "decision_body": null,
+        "decision_id": "toronto-apted-amenities-2026",
+        "title": "Apted Park: amenities and playground improvements",
+        "gis_project_name": "Apted Park Improvements",
+        "category": "park_design",
+        "record_type": "project_consultation",
+        "status": "engagement_scheduled",
+        "source_modified_date": "2026-11-10",
+        "affected_area": "Apted Park, 50 Apted Avenue",
+        "original_summary": null,
+        "plain_language_summary": "The City is seeking preferences for park amenities, including play equipment, seating and paths.",
+        "potential_impact": [
+          {
+            "text": "Community feedback will inform the design.",
+            "kind": "source_stated",
+            "evidence_id": "a1"
+          }
+        ],
+        "uncertainties": [
+          "This work is separate from the mini-pitch project.",
+          "GIS description lists different amenities; use the newer project page for scope.",
+          "Survey is not yet open on the verification date; closing time is unspecified."
+        ],
+        "participation_options": [
+          {
+            "method": "online_survey",
+            "availability": "upcoming",
+            "opens_on": "2026-11-17",
+            "deadline": "2026-12-08",
+            "deadline_precision": "date",
+            "deadline_timezone": "America/Toronto",
+            "deadline_time": null,
+            "url": "https://haveyoursay.toronto.ca/apted-park-improvements",
+            "evidence_id": "a2"
+          },
+          {
+            "method": "in_person_pop_up",
+            "availability": "upcoming",
+            "opens_on": "2026-11-24",
+            "deadline": null,
+            "event_start": "2026-11-24T17:00:00-05:00",
+            "event_end": "2026-11-24T20:00:00-05:00",
+            "venue": "Humber Summit Library",
+            "url": "https://www.toronto.ca/city-government/planning-development/construction-new-facilities/park-facility-projects/apted-park-improvements/",
+            "evidence_id": "a1"
+          }
+        ],
+        "events": [],
+        "official_source_url": "https://www.toronto.ca/city-government/planning-development/construction-new-facilities/park-facility-projects/apted-park-improvements/",
+        "geometry_source_url": "https://open.toronto.ca/dataset/park-and-recreation-facility-projects/",
+        "data_confidence": {
+          "facts": "high_official_page",
+          "location": "medium_representative_point",
+          "participation": "high_scheduled_not_open",
+          "limitations": "GIS scope conflict retained; not a council agenda item."
+        },
+        "evidence": [
+          {
+            "evidence_id": "a1",
+            "source_url": "https://www.toronto.ca/city-government/planning-development/construction-new-facilities/park-facility-projects/apted-park-improvements/",
+            "locator": "Introduction; Get Involved > In-Person Pop-Up Event",
+            "supports": [
+              "plain_language_summary",
+              "potential_impact",
+              "participation_options",
+              "uncertainties"
+            ]
+          },
+          {
+            "evidence_id": "a2",
+            "source_url": "https://haveyoursay.toronto.ca/apted-park-improvements",
+            "locator": "Project description: online survey dates",
+            "supports": [
+              "participation_options"
+            ]
+          },
+          {
+            "evidence_id": "a3",
+            "source_url": "https://open.toronto.ca/dataset/park-and-recreation-facility-projects/",
+            "locator": "globalid 14bce9fc-4a55-4589-937c-a7cb004e5b8a",
+            "supports": [
+              "geometry",
+              "ward_id",
+              "source_gis_status"
+            ]
+          }
+        ],
+        "geometry_source_record": "14bce9fc-4a55-4589-937c-a7cb004e5b8a",
+        "participation_status": "upcoming",
+        "can_participate_now": false,
+        "participation_deadline": "2026-12-08",
+        "participation_method": "online_survey",
+        "participation_url": "https://haveyoursay.toronto.ca/apted-park-improvements"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "toronto-notice-8007-rental-demolition",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -79.26078934,
+          43.715763632
+        ]
+      },
+      "properties": {
+        "municipality": "Toronto",
+        "published_date": "2026-11-03",
+        "decision_date": null,
+        "latitude": 43.715763632,
+        "longitude": -79.26078934,
+        "affected_area_geometry": null,
+        "location_precision": "approximate",
+        "location_role": "official_representative_point_not_impact_boundary",
+        "last_verified": "2026-11-13",
+        "verification_method": "AI-assisted extraction checked against retrieved official pages; no independent municipal review",
+        "summary_review_status": "source_checked_by_assistant",
+        "ai_generation_mode": "static_prepared_summary",
+        "source_gis_status": null,
+        "ward_id": null,
+        "agenda_item_id": null,
+        "decision_body": "Scarborough Community Council; recommendations forwarded to City Council",
+        "decision_id": "toronto-notice-8007-rental-demolition",
+        "title": "Kennedy–Danforth: rental demolition proposal",
+        "gis_project_name": null,
+        "category": "rental_housing",
+        "record_type": "public_meeting_notice",
+        "status": "public_meeting_scheduled",
+        "source_modified_date": null,
+        "affected_area": "411–415 Kennedy Road and 636–646 Danforth Road",
+        "original_summary": null,
+        "plain_language_summary": "A proposal would replace eight rental homes within a 276-home building. The related zoning approval is a separate matter.",
+        "potential_impact": [
+          {
+            "text": "Tenant relocation assistance is proposed; its detailed terms are not established in this dataset.",
+            "kind": "source_stated_with_missing_detail",
+            "evidence_id": "h1"
+          }
+        ],
+        "uncertainties": [
+          "Final demolition decision date is unknown.",
+          "Notice location list includes inconsistent addresses; only the matching 415 Kennedy Road point is used.",
+          "Application-number spelling differs within the notice; preserve original references when joining."
+        ],
+        "participation_options": [
+          {
+            "method": "register_to_speak_email_or_phone",
+            "availability": "open",
+            "opens_on": null,
+            "deadline": "2026-11-24T12:00:00-05:00",
+            "deadline_precision": "minute",
+            "deadline_timezone": "America/Toronto",
+            "deadline_time": "12:00",
+            "contact_email": "scc@toronto.ca",
+            "contact_phone": "416-397-4579",
+            "url": "https://secure.toronto.ca/nm/api/individual/notice/8007.do",
+            "evidence_id": "h2"
+          },
+          {
+            "method": "written_comments",
+            "availability": "open",
+            "opens_on": null,
+            "deadline": null,
+            "deadline_rule": "Until City Council gives final consideration; calendar date unknown.",
+            "contact_email": "scc@toronto.ca",
+            "url": "https://secure.toronto.ca/nm/api/individual/notice/8007.do",
+            "evidence_id": "h2"
+          }
+        ],
+        "events": [
+          {
+            "type": "public_meeting",
+            "date": "2026-11-25T09:30:00-05:00",
+            "precision": "minute",
+            "description": "Scarborough Community Council, or as soon as possible thereafter."
+          }
+        ],
+        "official_source_url": "https://secure.toronto.ca/nm/api/individual/notice/8007.do",
+        "geometry_source_url": "https://secure.toronto.ca/nm/api/individual/notice/8007.do",
+        "data_confidence": {
+          "facts": "high_official_notice",
+          "location": "medium_single_matching_address",
+          "participation": "high_as_of_verification",
+          "limitations": "Notice verified; full staff report and exact agenda-item link not yet reconciled."
+        },
+        "evidence": [
+          {
+            "evidence_id": "h1",
+            "source_url": "https://secure.toronto.ca/nm/api/individual/notice/8007.do",
+            "locator": "Description > PROPOSAL; PURPOSE OF PUBLIC MEETING",
+            "supports": [
+              "plain_language_summary",
+              "potential_impact",
+              "status",
+              "decision_body"
+            ]
+          },
+          {
+            "evidence_id": "h2",
+            "source_url": "https://secure.toronto.ca/nm/api/individual/notice/8007.do",
+            "locator": "MAKE YOUR VIEWS KNOWN",
+            "supports": [
+              "participation_options"
+            ]
+          },
+          {
+            "evidence_id": "h3",
+            "source_url": "https://secure.toronto.ca/nm/api/individual/notice/8007.do",
+            "locator": "Affected Location(s) > 415 Kennedy Road > mapAddress embedded coordinates",
+            "supports": [
+              "geometry"
+            ]
+          },
+          {
+            "evidence_id": "h4",
+            "source_url": "https://secure.toronto.ca/nm/api/individual/notice/8007.do",
+            "locator": "Description: Date / Time; Date",
+            "supports": [
+              "events",
+              "published_date"
+            ]
+          }
+        ],
+        "geometry_source_record": "Affected Location(s): 415 Kennedy Road",
+        "participation_status": "open",
+        "can_participate_now": true,
+        "participation_deadline": "2026-11-24T12:00:00-05:00",
+        "participation_method": "register_to_speak_email_or_phone",
+        "participation_url": "https://secure.toronto.ca/nm/api/individual/notice/8007.do"
+      }
+    }
+  ]
+}

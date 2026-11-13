@@ -41,9 +41,10 @@ Open the printed local URL (typically `http://localhost:5173`).
 ## Limitations
 
 - 3D buildings use OpenMapTiles `render_height` only where present; missing heights are treated as 0 (not invented).
-- No municipal decision markers or side panels yet.
+- Municipal markers load from the static `src/data/municipalRecords.json` FeatureCollection (not a live feed); the detail panel is not built yet.
+- Record locations are representative points, not surveyed parcels or impact boundaries.
+- Home camera uses browser geolocation when allowed; otherwise the Kennedy/Danforth case-study focus.
 - Map tiles require network access to OpenFreeMap.
-- Camera centre is not a surveyed parcel.
 
 ## Attribution
 

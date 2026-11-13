@@ -11,20 +11,26 @@
 
 MapLibre’s on-map attribution control is enabled and includes OpenFreeMap / OpenMapTiles / OpenStreetMap credit.
 
-## Geographic focus (static)
+## Geographic focus
 
-Neighbourhood camera centre is derived from address points near Kennedy Road and Danforth Road, Scarborough (Clairlea-Birchmount), verified via OpenStreetMap Nominatim and **baked into** `src/data/mapLocation.ts`. The app does **not** perform runtime geocoding.
+- **Home camera:** prefers browser geolocation; falls back to the Kennedy/Danforth case-study centre in `src/data/mapLocation.ts`.
+- **Decision marker:** uses the same indicative address midpoint for the Toronto rental demolition record. **Not** a surveyed property boundary.
+- Place names in the nav chip come from OpenMapTiles `place` features near the map centre (not a geocoding API).
 
-These coordinates are a neighbourhood focus only — **not** a surveyed property boundary.
+## Municipal record dataset (static)
 
-## Official Toronto case-study references (for later commits)
+Primary source file: [`src/data/municipalRecords.json`](../src/data/municipalRecords.json) — a manually supplied GeoJSON FeatureCollection, **not** a live municipal API.
 
-These sources will support municipal decision content in later increments. They are listed now for traceability; Commit 01 does not display decision claims.
+Each feature carries its own `official_source_url`, `evidence[]`, `last_verified`, and participation fields. Curated enrichments for notice 8007 (unit metrics / related zoning vs demolition) live in `src/data/decisions/torontoKennedyDanforth.ts` and merge by the GeoJSON id `toronto-notice-8007-rental-demolition`.
 
-| Source | URL |
+| Example official pages referenced in the dataset | Role |
 | --- | --- |
-| City of Toronto public notice | https://secure.toronto.ca/nm/api/individual/notice/8007.do |
-| Preliminary planning report (2021) | https://www.toronto.ca/legdocs/mmis/2021/sc/bgrd/backgroundfile-165240.pdf |
+| https://secure.toronto.ca/nm/api/individual/notice/8007.do | Rental demolition public notice |
+| https://www.toronto.ca/legdocs/mmis/2021/sc/bgrd/backgroundfile-165240.pdf | Preliminary planning report (curated enrichment) |
+| Wychwood / Apted project pages linked in GeoJSON properties | Park consultation sources |
+| https://open.toronto.ca/dataset/park-and-recreation-facility-projects/ | Geometry / GIS project metadata |
+
+Participation availability comes from each feature’s `participation_status` (and options), not from `status` or `source_gis_status`.
 
 ## Dependency licenses (installed versions)
 

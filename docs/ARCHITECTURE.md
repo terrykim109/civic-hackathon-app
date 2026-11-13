@@ -34,6 +34,24 @@ src/
 
 The floating location chip updates from OpenMapTiles `place` features near the map centre (`placeLabel.ts`) on `moveend` — no separate geocoding API. Coverage depends on what OSM/OpenMapTiles includes for that area.
 
+## Municipal records (Commits 05 / 05.5)
+
+| Concern | Location |
+| --- | --- |
+| Generalized types | `src/types/municipalRecord.ts` |
+| Static GeoJSON source | `src/data/municipalRecords.json` (not a live feed) |
+| Adapter + validation report | `src/data/geojson/adaptMunicipalGeoJson.ts` |
+| Collection + curated merge-by-id | `src/data/decisions/index.ts` |
+| Marker rendering | `src/components/map/DecisionMarkerLayer.tsx` |
+| Selection state | `App` (`selectedRecord`) |
+| Selected-record preview panel | `src/components/records/SelectedRecordPreview.tsx` |
+
+The preview panel is data-driven from `MunicipalRecord` via `buildRecordPreviewSections` — no city-specific copy in the component. Empty fields are omitted; impacts and uncertainties stay separate; municipal `projectStatus` is shown apart from participation availability.
+
+Status fields stay separate: `decisionStatus`, `projectStatus` (source `status`), `decisionStage`, `participationAvailability`, and `gisSourceStatus`. Participation is never inferred from pending decisions or GIS “Complete”.
+
+Markers iterate `MUNICIPAL_RECORDS` (HTML markers; fine for the current static set). To add another dataset, place a FeatureCollection JSON under `src/data/`, run it through `adaptMunicipalFeatureCollection`, and merge into the collection — do not hardcode features in the marker layer. Locations are representative points only.
+
 ## Elevated camera and navigation (Commit 03)
 
 MapLibre camera terms:

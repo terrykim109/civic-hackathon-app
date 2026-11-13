@@ -6,6 +6,7 @@ import {
   viewportAtCenter,
 } from '../../data/mapLocation'
 import { requestBrowserLngLat } from '../../data/userLocation'
+import type { MunicipalRecord } from '../../types/municipalRecord'
 import type { MapCameraApi, MapLoadState, MapViewport } from '../../types/map'
 import { ensureBuildingExtrusions } from './buildingExtrusion'
 import {
@@ -14,17 +15,24 @@ import {
   easeZoomBy,
   ZOOM_STEP,
 } from './cameraNavigation'
+import { DecisionMarkerLayer } from './DecisionMarkerLayer'
 import { MAP_STYLE_URL } from './maplibreSetup'
 import { resolvePlaceLabelFromMap } from './placeLabel'
 import styles from './MapView.module.css'
 
 interface MapViewProps {
+  records: readonly MunicipalRecord[]
+  selectedRecordId: string | null
+  onRecordSelect: (record: MunicipalRecord | null) => void
   onPlaceLabelChange?: (label: string) => void
   onCameraReady?: (camera: MapCameraApi | null) => void
   onZoomChange?: (zoom: number) => void
 }
 
 export function MapView({
+  records,
+  selectedRecordId,
+  onRecordSelect,
   onPlaceLabelChange,
   onCameraReady,
   onZoomChange,
@@ -37,6 +45,7 @@ export function MapView({
   const onZoomChangeRef = useRef(onZoomChange)
   const [loadState, setLoadState] = useState<MapLoadState>('loading')
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
+  const [mapInstance, setMapInstance] = useState<MapLibreMap | null>(null)
 
   useEffect(() => {
     onPlaceLabelChangeRef.current = onPlaceLabelChange
@@ -115,7 +124,6 @@ export function MapView({
         return
       }
 
-      // Permission denied / unavailable — keep case-study home and label hint.
       homeViewportRef.current = MAP_VIEWPORT
       onPlaceLabelChangeRef.current?.(CASE_STUDY_LABEL)
       publishPlaceLabel()
@@ -127,6 +135,7 @@ export function MapView({
       publishPlaceLabel()
       publishZoom()
       onCameraReadyRef.current?.(cameraApi)
+      setMapInstance(map)
       setLoadState('ready')
       setErrorMessage(null)
       void applyUserHomeIfAvailable()
@@ -150,6 +159,7 @@ export function MapView({
     return () => {
       cancelled = true
       if (labelTimer !== undefined) clearTimeout(labelTimer)
+      setMapInstance(null)
       onCameraReadyRef.current?.(null)
       map.off('load', onLoad)
       map.off('style.load', applyBuildings)
@@ -165,6 +175,12 @@ export function MapView({
   return (
     <div className={styles.root} aria-label="Interactive neighbourhood map">
       <div ref={containerRef} className={styles.map} />
+      <DecisionMarkerLayer
+        map={mapInstance}
+        records={records}
+        selectedRecordId={selectedRecordId}
+        onRecordSelect={onRecordSelect}
+      />
 
       {loadState === 'loading' && (
         <div className={styles.status} role="status">
