@@ -471,8 +471,14 @@ export function mergeRecordsById(
       continue
     }
     // Same id: keep GeoJSON core, overlay curated enrichments when present.
+    const sourceHrefs = new Set(existing.sources.map((source) => source.href))
+    const mergedSources = [
+      ...existing.sources,
+      ...record.sources.filter((source) => !sourceHrefs.has(source.href)),
+    ]
     byId.set(record.id, {
       ...existing,
+      sources: mergedSources,
       relatedProcesses:
         record.relatedProcesses.length > 0
           ? record.relatedProcesses

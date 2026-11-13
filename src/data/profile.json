@@ -1,0 +1,47 @@
+{
+  "report_requests": {
+    "records": 1979,
+    "physical_rows": 1981,
+    "fields": [
+      "Status",
+      "Req.\nBody",
+      "Meeting \nDate",
+      "Item Number",
+      "Agenda title",
+      "Directive",
+      "Rpt \nto:",
+      "Report Back Timing",
+      "Assigned to",
+      "Closed \nby",
+      "Date for Order"
+    ],
+    "meeting_date_min": "2022-11-24",
+    "meeting_date_max": "2026-07-29",
+    "status_counts": {
+      "Closed": 114,
+      "NCF": 1269,
+      "closed": 561,
+      "CLOSED": 35
+    }
+  },
+  "votes": {
+    "records": 46815,
+    "fields": [
+      "_id",
+      "Term",
+      "First Name",
+      "Last Name",
+      "Committee",
+      "Date/Time",
+      "Agenda Item #",
+      "Agenda Item Title",
+      "Motion Type",
+      "Vote",
+      "Result",
+      "Vote Description"
+    ],
+    "date_min": "2022-11-23",
+    "date_max": "2026-08-05",
+    "unique_items": 1110
+  }
+}

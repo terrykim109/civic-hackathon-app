@@ -95,13 +95,7 @@ export function DecisionMarkerLayer({
       )
     }
 
-    const onMapClick = () => {
-      if (selectedIdRef.current) onSelectRef.current(null)
-    }
-    map.on('click', onMapClick)
-
     return () => {
-      map.off('click', onMapClick)
       for (const marker of markers) {
         marker.remove()
       }

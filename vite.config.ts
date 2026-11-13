@@ -3,6 +3,7 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
+  assetsInclude: ['**/*.geojson'],
   optimizeDeps: {
     exclude: ['maplibre-gl'],
   },
@@ -10,3 +11,4 @@ export default defineConfig({
     format: 'es',
   },
 })
+

@@ -3,10 +3,12 @@ import { TopNav } from './components/layout/TopNav'
 import { CameraControls } from './components/map/CameraControls'
 import { MapView } from './components/map/MapView'
 import { SelectedRecordPreview } from './components/records/SelectedRecordPreview'
+import { SelectedWardPanel } from './components/wards/SelectedWardPanel'
 import { MUNICIPAL_RECORDS } from './data/decisions'
 import { MAP_VIEWPORT, NEIGHBOURHOOD_LABEL } from './data/mapLocation'
 import type { MunicipalRecord } from './types/municipalRecord'
 import type { MapCameraApi } from './types/map'
+import type { WardSelection } from './types/ward'
 import styles from './App.module.css'
 
 export default function App() {
@@ -16,6 +18,8 @@ export default function App() {
   const [selectedRecord, setSelectedRecord] = useState<MunicipalRecord | null>(
     null,
   )
+  const [selectedWard, setSelectedWard] = useState<WardSelection | null>(null)
+  const [parkProjects, setParkProjects] = useState<MunicipalRecord[]>([])
 
   return (
     <div className={styles.shell}>
@@ -23,6 +27,9 @@ export default function App() {
         records={MUNICIPAL_RECORDS}
         selectedRecordId={selectedRecord?.id ?? null}
         onRecordSelect={setSelectedRecord}
+        onParkProjectsLoaded={setParkProjects}
+        selectedWardId={selectedWard?.wardId ?? null}
+        onWardSelect={setSelectedWard}
         onPlaceLabelChange={setLocationLabel}
         onCameraReady={setCamera}
         onZoomChange={setZoom}
@@ -30,6 +37,17 @@ export default function App() {
       <div className={styles.ui}>
         <TopNav locationLabel={locationLabel} />
         <CameraControls camera={camera} zoom={zoom} />
+        {selectedWard ? (
+          <SelectedWardPanel
+            key={selectedWard.wardId}
+            ward={selectedWard}
+            records={MUNICIPAL_RECORDS}
+            parkProjects={parkProjects}
+            selectedRecordId={selectedRecord?.id ?? null}
+            onClose={() => setSelectedWard(null)}
+            onRecordSelect={setSelectedRecord}
+          />
+        ) : null}
         {selectedRecord ? (
           <SelectedRecordPreview
             key={selectedRecord.id}
@@ -39,9 +57,14 @@ export default function App() {
         ) : null}
       </div>
       <span className={styles.srOnly} role="status" aria-live="polite">
+        {selectedWard
+          ? `Selected ward ${selectedWard.wardId}: ${selectedWard.name}. `
+          : ''}
         {selectedRecord
           ? `Selected record: ${selectedRecord.title}`
-          : 'No municipal record selected'}
+          : selectedWard
+            ? 'No municipal record selected'
+            : 'No ward or municipal record selected'}
       </span>
     </div>
   )

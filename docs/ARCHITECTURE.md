@@ -48,9 +48,33 @@ The floating location chip updates from OpenMapTiles `place` features near the m
 
 The preview panel is data-driven from `MunicipalRecord` via `buildRecordPreviewSections` — no city-specific copy in the component. Empty fields are omitted; impacts and uncertainties stay separate; municipal `projectStatus` is shown apart from participation availability.
 
+## Toronto wards (Commit 05.6)
+
+| Concern | Location |
+| --- | --- |
+| Source GeoJSON (25 MultiPolygons) | `src/data/wards.geojson` |
+| Static asset URL (not inlined in JS) | `src/data/wards/wardsAsset.ts` (`?url`) |
+| Association resolver (exact decision IDs) | `src/data/wards/resolveWardRecords.ts` |
+| MapLibre source/layers + feature-state | `src/components/map/wardLayers.ts`, `WardLayer.tsx` |
+| Ward selection panel | `src/components/wards/SelectedWardPanel.tsx` |
+
+Ward polygons use `role: navigation_boundary_not_impact_area`. They are discovery boundaries only — never project impact areas. Associations use exact `decision_ids` ↔ municipal record ids (Ward 7 → Apted, Ward 12 → Wychwood; others empty).
+
 Status fields stay separate: `decisionStatus`, `projectStatus` (source `status`), `decisionStage`, `participationAvailability`, and `gisSourceStatus`. Participation is never inferred from pending decisions or GIS “Complete”.
 
 Markers iterate `MUNICIPAL_RECORDS` (HTML markers; fine for the current static set). To add another dataset, place a FeatureCollection JSON under `src/data/`, run it through `adaptMunicipalFeatureCollection`, and merge into the collection — do not hardcode features in the marker layer. Locations are representative points only.
+
+## Additional Open Data (Commit 05.8)
+
+| Concern | Location |
+| --- | --- |
+| Park facility projects adapter | `src/data/parks/adaptParkFacilityProjects.ts` |
+| Projects GeoJSON asset URL | `src/data/parks/parkProjectsAsset.ts` |
+| MapLibre circle layer | `src/components/map/ParkProjectLayer.tsx`, `parkProjectLayers.ts` |
+| Ward Open Data name meta | `src/data/wardOfficialMeta.json`, `wardOfficialMeta.ts` |
+| Notice 8007 local snapshot | `src/data/notice8007.html` (linked from curated enrichment) |
+
+Park projects reuse `MunicipalRecord` with `dataOrigin: 'open_data'` and `recordType: park_facility_project`. They are not merged into `MUNICIPAL_RECORDS` HTML markers; the map loads them separately and skips `globalid` overlaps with existing municipal evidence.
 
 ## Elevated camera and navigation (Commit 03)
 

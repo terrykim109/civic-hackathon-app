@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { Map as MapLibreMap } from 'maplibre-gl'
+import { Map as MapLibreMap, type MapMouseEvent } from 'maplibre-gl'
 import {
   CASE_STUDY_LABEL,
   MAP_VIEWPORT,
@@ -8,6 +8,7 @@ import {
 import { requestBrowserLngLat } from '../../data/userLocation'
 import type { MunicipalRecord } from '../../types/municipalRecord'
 import type { MapCameraApi, MapLoadState, MapViewport } from '../../types/map'
+import type { WardSelection } from '../../types/ward'
 import { ensureBuildingExtrusions } from './buildingExtrusion'
 import {
   configureMapNavigation,
@@ -17,13 +18,23 @@ import {
 } from './cameraNavigation'
 import { DecisionMarkerLayer } from './DecisionMarkerLayer'
 import { MAP_STYLE_URL } from './maplibreSetup'
+import {
+  PARK_PROJECT_HIT_LAYER_IDS,
+  ParkProjectLayer,
+} from './ParkProjectLayer'
 import { resolvePlaceLabelFromMap } from './placeLabel'
+import { WardHoverLabel } from './WardHoverLabel'
+import { WardLayer } from './WardLayer'
+import { WARDS_FILL_LAYER_ID } from './wardLayers'
 import styles from './MapView.module.css'
 
 interface MapViewProps {
   records: readonly MunicipalRecord[]
   selectedRecordId: string | null
   onRecordSelect: (record: MunicipalRecord | null) => void
+  onParkProjectsLoaded?: (projects: MunicipalRecord[]) => void
+  selectedWardId: string | null
+  onWardSelect: (ward: WardSelection | null) => void
   onPlaceLabelChange?: (label: string) => void
   onCameraReady?: (camera: MapCameraApi | null) => void
   onZoomChange?: (zoom: number) => void
@@ -33,6 +44,9 @@ export function MapView({
   records,
   selectedRecordId,
   onRecordSelect,
+  onParkProjectsLoaded,
+  selectedWardId,
+  onWardSelect,
   onPlaceLabelChange,
   onCameraReady,
   onZoomChange,
@@ -43,9 +57,15 @@ export function MapView({
   const onPlaceLabelChangeRef = useRef(onPlaceLabelChange)
   const onCameraReadyRef = useRef(onCameraReady)
   const onZoomChangeRef = useRef(onZoomChange)
+  const onRecordSelectRef = useRef(onRecordSelect)
+  const onWardSelectRef = useRef(onWardSelect)
   const [loadState, setLoadState] = useState<MapLoadState>('loading')
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [mapInstance, setMapInstance] = useState<MapLibreMap | null>(null)
+  const [hoveredWard, setHoveredWard] = useState<WardSelection | null>(null)
+  const [hoverPoint, setHoverPoint] = useState<{ x: number; y: number } | null>(
+    null,
+  )
 
   useEffect(() => {
     onPlaceLabelChangeRef.current = onPlaceLabelChange
@@ -58,6 +78,14 @@ export function MapView({
   useEffect(() => {
     onZoomChangeRef.current = onZoomChange
   }, [onZoomChange])
+
+  useEffect(() => {
+    onRecordSelectRef.current = onRecordSelect
+  }, [onRecordSelect])
+
+  useEffect(() => {
+    onWardSelectRef.current = onWardSelect
+  }, [onWardSelect])
 
   useEffect(() => {
     if (!containerRef.current || mapRef.current) return
@@ -129,6 +157,30 @@ export function MapView({
       publishPlaceLabel()
     }
 
+    const onBackgroundClick = (event: MapMouseEvent) => {
+      const parkLayers = PARK_PROJECT_HIT_LAYER_IDS.filter((id) =>
+        Boolean(map.getLayer(id)),
+      )
+      if (parkLayers.length > 0) {
+        const parkHits = map.queryRenderedFeatures(event.point, {
+          layers: [...parkLayers],
+        })
+        if (parkHits.length > 0) return
+      }
+
+      if (!map.getLayer(WARDS_FILL_LAYER_ID)) {
+        onWardSelectRef.current(null)
+        onRecordSelectRef.current(null)
+        return
+      }
+      const wardHits = map.queryRenderedFeatures(event.point, {
+        layers: [WARDS_FILL_LAYER_ID],
+      })
+      if (wardHits.length > 0) return
+      onWardSelectRef.current(null)
+      onRecordSelectRef.current(null)
+    }
+
     const onLoad = () => {
       if (cancelled) return
       applyBuildings()
@@ -152,6 +204,7 @@ export function MapView({
     map.on('moveend', schedulePlaceLabel)
     map.on('zoom', publishZoom)
     map.on('zoomend', publishZoom)
+    map.on('click', onBackgroundClick)
     map.on('error', onError)
 
     mapRef.current = map
@@ -166,6 +219,7 @@ export function MapView({
       map.off('moveend', schedulePlaceLabel)
       map.off('zoom', publishZoom)
       map.off('zoomend', publishZoom)
+      map.off('click', onBackgroundClick)
       map.off('error', onError)
       map.remove()
       mapRef.current = null
@@ -175,12 +229,31 @@ export function MapView({
   return (
     <div className={styles.root} aria-label="Interactive neighbourhood map">
       <div ref={containerRef} className={styles.map} />
+      <WardLayer
+        map={mapInstance}
+        selectedWardId={selectedWardId}
+        onWardSelect={onWardSelect}
+        onWardHover={(ward, point) => {
+          setHoveredWard(ward)
+          setHoverPoint(point ?? null)
+        }}
+      />
       <DecisionMarkerLayer
         map={mapInstance}
         records={records}
         selectedRecordId={selectedRecordId}
         onRecordSelect={onRecordSelect}
       />
+      <ParkProjectLayer
+        map={mapInstance}
+        municipalRecords={records}
+        selectedRecordId={selectedRecordId}
+        onProjectsLoaded={onParkProjectsLoaded ?? (() => undefined)}
+        onRecordSelect={onRecordSelect}
+      />
+      {hoveredWard && hoverPoint && selectedWardId !== hoveredWard.wardId ? (
+        <WardHoverLabel ward={hoveredWard} x={hoverPoint.x} y={hoverPoint.y} />
+      ) : null}
 
       {loadState === 'loading' && (
         <div className={styles.status} role="status">

@@ -162,6 +162,14 @@
   line-height: 1.4;
 }
 
+.sourceList {
+  display: grid;
+  gap: 0.45rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
 .sourceLink {
   display: inline-flex;
   align-items: center;

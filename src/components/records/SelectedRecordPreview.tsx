@@ -24,7 +24,11 @@ export function SelectedRecordPreview({
     >
       <header className={styles.header}>
         <div>
-          <p className={styles.eyebrow}>Selected municipal record</p>
+          <p className={styles.eyebrow}>
+            {record.dataOrigin === 'open_data'
+              ? 'Park & recreation facility project'
+              : 'Selected municipal record'}
+          </p>
           <h2 id={`record-preview-title-${record.id}`} className={styles.title}>
             {preview.title}
           </h2>
@@ -119,7 +123,30 @@ export function SelectedRecordPreview({
           </section>
         ) : null}
 
-        {preview.officialSourceUrl ? (
+        {record.sources.length > 0 ? (
+          <section className={styles.section}>
+            <h3 className={styles.sectionTitle}>Sources</h3>
+            <ul className={styles.sourceList}>
+              {record.sources.map((source) => (
+                <li key={`${source.label}-${source.href}`}>
+                  <a
+                    className={styles.sourceLink}
+                    href={source.href}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {source.label}
+                    <ExternalLink
+                      size={15}
+                      strokeWidth={2.25}
+                      aria-hidden="true"
+                    />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ) : preview.officialSourceUrl ? (
           <a
             className={styles.sourceLink}
             href={preview.officialSourceUrl}
@@ -134,6 +161,10 @@ export function SelectedRecordPreview({
         {preview.lastVerified ? (
           <p className={styles.footerMeta}>
             Record last verified: {preview.lastVerified}
+          </p>
+        ) : record.dataOrigin === 'open_data' ? (
+          <p className={styles.footerMeta}>
+            Source: City of Toronto Open Data extract (not a live feed).
           </p>
         ) : null}
       </div>

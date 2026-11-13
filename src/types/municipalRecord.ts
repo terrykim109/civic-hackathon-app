@@ -166,7 +166,11 @@ export interface MunicipalRecord {
   metrics: DecisionMetric[]
   /** Original GeoJSON feature id when imported from a FeatureCollection. */
   sourceFeatureId?: string | number
-  dataOrigin: 'geojson' | 'curated'
+  /**
+   * Provenance of the normalized record.
+   * `open_data` = Toronto Open Data catalogue extract (not the curated decision GeoJSON).
+   */
+  dataOrigin: 'geojson' | 'curated' | 'open_data'
 }
 
 export interface SkippedFeatureReport {

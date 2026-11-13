@@ -1,0 +1,152 @@
+[
+  {
+    "wardId": "7",
+    "areaShortCode": "07",
+    "name": "Humber River-Black Creek",
+    "description": "Humber River-Black Creek (7)"
+  },
+  {
+    "wardId": "6",
+    "areaShortCode": "06",
+    "name": "York Centre",
+    "description": "York Centre (6)"
+  },
+  {
+    "wardId": "18",
+    "areaShortCode": "18",
+    "name": "Willowdale",
+    "description": "Willowdale (18)"
+  },
+  {
+    "wardId": "11",
+    "areaShortCode": "11",
+    "name": "University-Rosedale",
+    "description": "University-Rosedale (11)"
+  },
+  {
+    "wardId": "19",
+    "areaShortCode": "19",
+    "name": "Beaches-East York",
+    "description": "Beaches-East York (19)"
+  },
+  {
+    "wardId": "20",
+    "areaShortCode": "20",
+    "name": "Scarborough Southwest",
+    "description": "Scarborough Southwest (20)"
+  },
+  {
+    "wardId": "25",
+    "areaShortCode": "25",
+    "name": "Scarborough-Rouge Park",
+    "description": "Scarborough-Rouge Park (25)"
+  },
+  {
+    "wardId": "23",
+    "areaShortCode": "23",
+    "name": "Scarborough North",
+    "description": "Scarborough North (23)"
+  },
+  {
+    "wardId": "24",
+    "areaShortCode": "24",
+    "name": "Scarborough-Guildwood",
+    "description": "Scarborough-Guildwood (24)"
+  },
+  {
+    "wardId": "21",
+    "areaShortCode": "21",
+    "name": "Scarborough Centre",
+    "description": "Scarborough Centre (21)"
+  },
+  {
+    "wardId": "22",
+    "areaShortCode": "22",
+    "name": "Scarborough-Agincourt",
+    "description": "Scarborough-Agincourt (22)"
+  },
+  {
+    "wardId": "15",
+    "areaShortCode": "15",
+    "name": "Don Valley West",
+    "description": "Don Valley West (15)"
+  },
+  {
+    "wardId": "12",
+    "areaShortCode": "12",
+    "name": "Toronto-St. Paul's",
+    "description": "Toronto-St. Paul's (12)"
+  },
+  {
+    "wardId": "4",
+    "areaShortCode": "04",
+    "name": "Parkdale-High Park",
+    "description": "Parkdale-High Park (4)"
+  },
+  {
+    "wardId": "1",
+    "areaShortCode": "01",
+    "name": "Etobicoke North",
+    "description": "Etobicoke North (1)"
+  },
+  {
+    "wardId": "3",
+    "areaShortCode": "03",
+    "name": "Etobicoke-Lakeshore",
+    "description": "Etobicoke-Lakeshore (3)"
+  },
+  {
+    "wardId": "2",
+    "areaShortCode": "02",
+    "name": "Etobicoke Centre",
+    "description": "Etobicoke Centre (2)"
+  },
+  {
+    "wardId": "8",
+    "areaShortCode": "08",
+    "name": "Eglinton-Lawrence",
+    "description": "Eglinton-Lawrence (8)"
+  },
+  {
+    "wardId": "17",
+    "areaShortCode": "17",
+    "name": "Don Valley North",
+    "description": "Don Valley North (17)"
+  },
+  {
+    "wardId": "16",
+    "areaShortCode": "16",
+    "name": "Don Valley East",
+    "description": "Don Valley East (16)"
+  },
+  {
+    "wardId": "9",
+    "areaShortCode": "09",
+    "name": "Davenport",
+    "description": "Davenport (9)"
+  },
+  {
+    "wardId": "13",
+    "areaShortCode": "13",
+    "name": "Toronto Centre",
+    "description": "Toronto Centre (13)"
+  },
+  {
+    "wardId": "5",
+    "areaShortCode": "05",
+    "name": "York South-Weston",
+    "description": "York South-Weston (5)"
+  },
+  {
+    "wardId": "14",
+    "areaShortCode": "14",
+    "name": "Toronto-Danforth",
+    "description": "Toronto-Danforth (14)"
+  },
+  {
+    "wardId": "10",
+    "areaShortCode": "10",
+    "name": "Spadina-Fort York",
+    "description": "Spadina-Fort York (10)"
+  }
+]

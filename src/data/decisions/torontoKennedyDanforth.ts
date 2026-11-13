@@ -1,4 +1,5 @@
 import type { MunicipalRecord } from '../../types/municipalRecord'
+import notice8007SnapshotUrl from '../notice8007.html?url'
 
 /**
  * Curated enrichments for the Kennedy–Danforth rental demolition notice.
@@ -34,6 +35,11 @@ export const torontoKennedyDanforthEnrichment: MunicipalRecord = {
     {
       label: 'City of Toronto public notice',
       href: 'https://secure.toronto.ca/nm/api/individual/notice/8007.do',
+      verifiedOn: '2026-11-13',
+    },
+    {
+      label: 'Local notice snapshot (bundled)',
+      href: notice8007SnapshotUrl,
       verifiedOn: '2026-11-13',
     },
     {

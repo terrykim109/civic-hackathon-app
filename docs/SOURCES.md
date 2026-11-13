@@ -17,20 +17,36 @@ MapLibre’s on-map attribution control is enabled and includes OpenFreeMap / Op
 - **Decision marker:** uses the same indicative address midpoint for the Toronto rental demolition record. **Not** a surveyed property boundary.
 - Place names in the nav chip come from OpenMapTiles `place` features near the map centre (not a geocoding API).
 
+## Toronto ward boundaries (static)
+
+Source file: [`src/data/wards.geojson`](../src/data/wards.geojson) — 25 MultiPolygon features with `ward_id`, `name`, `decision_ids`, and `role: navigation_boundary_not_impact_area`. Loaded by MapLibre via a Vite asset URL (not embedded in the JS bundle). Ward polygons are navigation aids only; they are not project impact areas.
+
+Official ward name/description enrichment: [`src/data/wardOfficialMeta.json`](../src/data/wardOfficialMeta.json) — properties-only extract from City of Toronto [City Wards](https://open.toronto.ca/dataset/city-wards/) (`AREA_SHORT_CODE` / `AREA_NAME` / `AREA_DESC`). Polygon geometries from `city-wards.geojson` are **not** rendered a second time.
+
 ## Municipal record dataset (static)
 
 Primary source file: [`src/data/municipalRecords.json`](../src/data/municipalRecords.json) — a manually supplied GeoJSON FeatureCollection, **not** a live municipal API.
 
-Each feature carries its own `official_source_url`, `evidence[]`, `last_verified`, and participation fields. Curated enrichments for notice 8007 (unit metrics / related zoning vs demolition) live in `src/data/decisions/torontoKennedyDanforth.ts` and merge by the GeoJSON id `toronto-notice-8007-rental-demolition`.
+Each feature carries its own `official_source_url`, `evidence[]`, `last_verified`, and participation fields. Curated enrichments for notice 8007 (unit metrics / related zoning vs demolition) live in `src/data/decisions/torontoKennedyDanforth.ts` and merge by the GeoJSON id `toronto-notice-8007-rental-demolition`. A bundled HTML snapshot of notice 8007 (`src/data/notice8007.html`) is linked as a local source for offline verification alongside the live City notice URL.
 
 | Example official pages referenced in the dataset | Role |
 | --- | --- |
 | https://secure.toronto.ca/nm/api/individual/notice/8007.do | Rental demolition public notice |
+| Bundled `notice8007.html` | Local snapshot of the same notice |
 | https://www.toronto.ca/legdocs/mmis/2021/sc/bgrd/backgroundfile-165240.pdf | Preliminary planning report (curated enrichment) |
 | Wychwood / Apted project pages linked in GeoJSON properties | Park consultation sources |
 | https://open.toronto.ca/dataset/park-and-recreation-facility-projects/ | Geometry / GIS project metadata |
 
 Participation availability comes from each feature’s `participation_status` (and options), not from `status` or `source_gis_status`.
+
+## Park and recreation facility projects (Open Data)
+
+Source file: [`src/data/park-and-recreation-facility-projects.geojson`](../src/data/park-and-recreation-facility-projects.geojson) — City of Toronto [Park and Recreation Facility Projects](https://open.toronto.ca/dataset/park-and-recreation-facility-projects/). Loaded by Vite asset URL + fetch; adapted in `src/data/parks/adaptParkFacilityProjects.ts`.
+
+- Features already represented in `municipalRecords.json` via matching `globalid` (Wychwood, Apted) are **skipped** to avoid duplicate markers.
+- Remaining projects render as MapLibre circle layers (not HTML decision markers).
+- Ward panel lists use each feature’s own `ward_number` field (normalized), never map proximity.
+- Participation and decision outcome stay `unknown` unless a separate verified source says otherwise.
 
 ## Dependency licenses (installed versions)
 
