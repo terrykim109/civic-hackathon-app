@@ -17,9 +17,9 @@ describe('mapLocation', () => {
     expect(lat).toBeLessThan(43.73)
   })
 
-  it('uses a flat 2D viewport suitable for Commit 01', () => {
-    expect(MAP_VIEWPORT.pitch).toBe(0)
-    expect(MAP_VIEWPORT.bearing).toBe(0)
+  it('uses a pitched camera so building extrusions are visible', () => {
+    expect(MAP_VIEWPORT.pitch).toBeGreaterThan(45)
+    expect(MAP_VIEWPORT.pitch).toBeLessThanOrEqual(65)
     expect(() => assertMapViewportValid(MAP_VIEWPORT)).not.toThrow()
   })
 

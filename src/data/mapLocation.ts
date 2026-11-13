@@ -24,9 +24,10 @@ export const MAP_VIEWPORT: MapViewport = {
     (KENNEDY_411[0] + DANFORTH_636[0]) / 2,
     (KENNEDY_411[1] + DANFORTH_636[1]) / 2,
   ],
-  zoom: 15.4,
-  pitch: 0,
-  bearing: 0,
+  /** Pitched so OpenMapTiles fill-extrusion buildings read in 3D. */
+  zoom: 16.2,
+  pitch: 58,
+  bearing: -28,
   minZoom: 11,
   maxZoom: 18,
 }

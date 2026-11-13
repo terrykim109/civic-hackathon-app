@@ -4,7 +4,7 @@ export type LngLat = [number, number]
 export interface MapViewport {
   center: LngLat
   zoom: number
-  /** Flat 2D view for Commit 01; pitch/bearing reserved for later 3D work. */
+  /** Camera pitch in degrees (0 = top-down; ~50–60 shows building extrusions). */
   pitch: number
   bearing: number
   minZoom: number

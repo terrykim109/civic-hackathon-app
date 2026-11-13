@@ -42,7 +42,7 @@ Open the printed local URL (typically `http://localhost:5173`).
 
 ## Limitations
 
-- Flat 2D map only — no 3D building extrusions yet.
+- 3D buildings use OpenMapTiles `render_height` only where present; missing heights are treated as 0 (not invented).
 - No municipal decision markers or side panels yet.
 - Map tiles require network access to OpenFreeMap.
 - Camera centre is a static neighbourhood focus, not a surveyed parcel.

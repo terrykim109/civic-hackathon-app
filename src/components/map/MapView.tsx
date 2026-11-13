@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Map as MapLibreMap, NavigationControl } from 'maplibre-gl'
 import { MAP_VIEWPORT } from '../../data/mapLocation'
 import type { MapLoadState } from '../../types/map'
+import { ensureBuildingExtrusions } from './buildingExtrusion'
 import { MAP_STYLE_URL } from './maplibreSetup'
 import styles from './MapView.module.css'
 
@@ -25,17 +26,30 @@ export function MapView() {
       bearing: MAP_VIEWPORT.bearing,
       minZoom: MAP_VIEWPORT.minZoom,
       maxZoom: MAP_VIEWPORT.maxZoom,
+      maxPitch: 65,
       attributionControl: {
         compact: true,
         customAttribution:
           'OpenFreeMap · © OpenMapTiles · © OpenStreetMap contributors',
       },
+      canvasContextAttributes: { antialias: true },
     })
 
-    map.addControl(new NavigationControl({ showCompass: false }), 'bottom-right')
+    map.addControl(
+      new NavigationControl({ visualizePitch: true, showCompass: true }),
+      'bottom-right',
+    )
+    map.dragRotate.enable()
+    map.touchZoomRotate.enableRotation()
+
+    const applyBuildings = () => {
+      if (cancelled) return
+      ensureBuildingExtrusions(map)
+    }
 
     const onLoad = () => {
       if (cancelled) return
+      applyBuildings()
       setLoadState('ready')
       setErrorMessage(null)
     }
@@ -47,6 +61,7 @@ export function MapView() {
     }
 
     map.on('load', onLoad)
+    map.on('style.load', applyBuildings)
     map.on('error', onError)
 
     mapRef.current = map
@@ -54,6 +69,7 @@ export function MapView() {
     return () => {
       cancelled = true
       map.off('load', onLoad)
+      map.off('style.load', applyBuildings)
       map.off('error', onError)
       map.remove()
       mapRef.current = null
