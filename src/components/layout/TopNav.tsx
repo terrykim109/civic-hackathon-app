@@ -10,14 +10,14 @@ export function TopNav({ locationLabel }: TopNavProps) {
     <header className={styles.nav} role="banner">
       <div className={styles.brandRow}>
         <div className={styles.mark} aria-hidden="true">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-            <path
-              d="M5 16V8l7-4 7 4v8l-7 4-7-4Z"
-              stroke="currentColor"
-              strokeWidth="1.8"
-            />
-            <circle cx="12" cy="11" r="2" fill="currentColor" />
-          </svg>
+          <img
+            className={styles.markImage}
+            src="/favicon.png"
+            alt=""
+            width={28}
+            height={28}
+            decoding="async"
+          />
         </div>
         <div className={styles.brandText}>
           <div className={styles.wordmark}>CivicSync</div>
