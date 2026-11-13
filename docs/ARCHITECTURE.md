@@ -1,8 +1,8 @@
-# Architecture — CivicLens
+# Architecture — CivicSync
 
 ## Chosen approach
 
-CivicLens is a **client-only Vite + React + TypeScript** app. The geographic surface is **MapLibre GL JS** rendering the **OpenFreeMap Liberty** vector style.
+CivicSync is a **client-only Vite + React + TypeScript** app. The geographic surface is **MapLibre GL JS** rendering the **OpenFreeMap Liberty** vector style.
 
 ### Why MapLibre + OpenFreeMap
 
@@ -30,7 +30,24 @@ src/
   types/               # shared TypeScript contracts
 ```
 
-`MapView` owns map create/destroy and load/error state. Camera constants live in `data/mapLocation.ts`. Building extrusion setup lives in `components/map/buildingExtrusion.ts`.
+`MapView` owns map create/destroy and load/error state. Camera constants live in `data/mapLocation.ts`. Building extrusion setup lives in `components/map/buildingExtrusion.ts`. Navigation handler wiring lives in `components/map/cameraNavigation.ts`.
+
+The floating location chip updates from OpenMapTiles `place` features near the map centre (`placeLabel.ts`) on `moveend` — no separate geocoding API. Coverage depends on what OSM/OpenMapTiles includes for that area.
+
+## Elevated camera and navigation (Commit 03)
+
+MapLibre camera terms:
+
+| Property | Meaning |
+| --- | --- |
+| `center` | Lon/lat the camera looks toward |
+| `zoom` | Scale level |
+| `pitch` | Tilt in degrees (0 = top-down; higher = more horizon) |
+| `bearing` | Rotation in degrees clockwise from north |
+
+Home view is centralized in `MAP_VIEWPORT` (`pitch: 52`, `bearing: -32`, same Kennedy/Danforth centre, `zoom: 16.2`). Limits: zoom 12–18, pitch 0–60.
+
+`configureMapNavigation` enables pan, scroll zoom, drag-rotate, keyboard, touch zoom/rotate, and `touchPitch` once per map instance. Built-in `NavigationControl` exposes zoom plus compass/pitch (no custom camera buttons yet). Programmatic moves use `easeToHomeCamera` / `CAMERA_EASE_MS` without recreating the map.
 
 ## 3D buildings (Commit 02)
 
@@ -46,15 +63,16 @@ Inspected from the live OpenFreeMap Liberty style (`https://tiles.openfreemap.or
 | Base property | `render_min_height` |
 | Exclusion filter | features with `hide_3d` are omitted |
 
-Liberty already defines `building-3d`. CivicLens **refines** that layer’s paint (limestone colour, opacity, coalesce for missing heights) and only **adds** the layer if it is absent — never duplicates.
+Liberty already defines `building-3d`. CivicSync **refines** that layer’s paint (limestone colour, opacity, coalesce for missing heights) and only **adds** the layer if it is absent — never duplicates.
 
 Missing height handling: `coalesce(to-number(render_height), 0)` / same for `render_min_height`. Zero height means no invented storeys.
 
-A pitched camera (`pitch` ≈ 58°, `bearing` ≈ −28°) makes extrusions readable. Flat `building` fill in the style only runs through zoom 14; extrusions take over from zoom 14+.
+Extrusions remain geographically aligned during pitch/bearing changes because they are MapLibre `fill-extrusion` layers on the vector tile footprints. Flat `building` fill in the style only runs through zoom 14; extrusions take over from zoom 14+.
 
 ## Current limitations
 
 - No backend, auth, AI, or municipal business data layers.
-- No decision markers or analysis panels yet.
+- No decision markers, analysis panels, or custom camera-reset buttons yet.
 - Building heights exist only where OpenMapTiles provides `render_height` (derived from OSM height / levels where available). Many footprints may be low or zero.
 - Tile availability depends on the public OpenFreeMap service.
+- Interactive rotate/pitch depends on pointer/touch hardware; visual verification of gestures may require a local browser.

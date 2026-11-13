@@ -17,20 +17,31 @@ const DANFORTH_636: [number, number] = [-79.26054, 43.71621]
 
 export const MAP_STYLE_URL = 'https://tiles.openfreemap.org/styles/liberty'
 
+/** Default / fallback chip label before tile place features resolve. */
 export const NEIGHBOURHOOD_LABEL = 'Kennedy Rd & Danforth Rd · Scarborough'
 
+/**
+ * Elevated 3D home camera. Change pitch / bearing / zoom here — MapView reads
+ * this object once at map construction and does not recreate the map.
+ */
 export const MAP_VIEWPORT: MapViewport = {
   center: [
     (KENNEDY_411[0] + DANFORTH_636[0]) / 2,
     (KENNEDY_411[1] + DANFORTH_636[1]) / 2,
   ],
-  /** Pitched so OpenMapTiles fill-extrusion buildings read in 3D. */
   zoom: 16.2,
-  pitch: 58,
-  bearing: -28,
-  minZoom: 11,
+  /** ~50–55° keeps extrusions readable without extreme foreshortening. */
+  pitch: 52,
+  /** Slight rotation for a composed neighbourhood view (clockwise from north). */
+  bearing: -32,
+  minZoom: 12,
   maxZoom: 18,
+  minPitch: 0,
+  maxPitch: 60,
 }
+
+/** Shared ease options for programmatic camera moves (reset comes in a later commit). */
+export const CAMERA_EASE_MS = 1100
 
 /** Invariant checks used by tests and as documentation of expected ranges. */
 export function assertMapViewportValid(viewport: MapViewport): void {
@@ -44,6 +55,14 @@ export function assertMapViewportValid(viewport: MapViewport): void {
   if (viewport.zoom < viewport.minZoom || viewport.zoom > viewport.maxZoom) {
     throw new Error(
       `Zoom ${viewport.zoom} outside [${viewport.minZoom}, ${viewport.maxZoom}]`,
+    )
+  }
+  if (
+    viewport.pitch < viewport.minPitch ||
+    viewport.pitch > viewport.maxPitch
+  ) {
+    throw new Error(
+      `Pitch ${viewport.pitch} outside [${viewport.minPitch}, ${viewport.maxPitch}]`,
     )
   }
 }

@@ -1,8 +1,11 @@
 import { MapPinned } from 'lucide-react'
-import { NEIGHBOURHOOD_LABEL } from '../../data/mapLocation'
 import styles from './TopNav.module.css'
 
-export function TopNav() {
+interface TopNavProps {
+  locationLabel: string
+}
+
+export function TopNav({ locationLabel }: TopNavProps) {
   return (
     <header className={styles.nav} role="banner">
       <div className={styles.brandRow}>
@@ -17,14 +20,14 @@ export function TopNav() {
           </svg>
         </div>
         <div className={styles.brandText}>
-          <div className={styles.wordmark}>CivicLens</div>
+          <div className={styles.wordmark}>CivicSync</div>
           <div className={styles.tagline}>Municipal decision explorer</div>
         </div>
       </div>
 
       <div className={styles.place} aria-label="Focused neighbourhood">
         <MapPinned size={14} strokeWidth={2.25} aria-hidden="true" />
-        <span>{NEIGHBOURHOOD_LABEL}</span>
+        <span>{locationLabel}</span>
       </div>
     </header>
   )

@@ -1,4 +1,4 @@
-# CivicLens
+# CivicSync
 
 Map-first municipal decision explorer focused on the Kennedy Road and Danforth Road neighbourhood in Scarborough, Toronto.
 

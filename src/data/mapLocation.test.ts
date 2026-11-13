@@ -17,11 +17,12 @@ describe('mapLocation', () => {
     expect(lat).toBeLessThan(43.73)
   })
 
-  it('uses a pitched camera so building extrusions are visible', () => {
-    expect(MAP_VIEWPORT.pitch).toBeGreaterThan(45)
-    expect(MAP_VIEWPORT.pitch).toBeLessThanOrEqual(65)
+  it('uses an elevated pitch in the 50–55° band', () => {
+    expect(MAP_VIEWPORT.pitch).toBeGreaterThanOrEqual(50)
+    expect(MAP_VIEWPORT.pitch).toBeLessThanOrEqual(55)
     expect(() => assertMapViewportValid(MAP_VIEWPORT)).not.toThrow()
   })
+
 
   it('points at the OpenFreeMap Liberty style', () => {
     expect(MAP_STYLE_URL).toBe('https://tiles.openfreemap.org/styles/liberty')
