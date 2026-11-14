@@ -47,6 +47,11 @@ Open the printed local URL (typically `http://localhost:5173`).
 - Home camera uses browser geolocation when allowed; otherwise the Kennedy/Danforth case-study focus.
 - Map tiles require network access to OpenFreeMap.
 
+## Data Documentation
+
+See [Data Methodology](docs/DATA_METHODOLOGY.md)
+for data sources, processing, field definitions,
+validation results, and participation status checks.
 ## Attribution
 
 See [`docs/SOURCES.md`](docs/SOURCES.md). Architecture notes: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
