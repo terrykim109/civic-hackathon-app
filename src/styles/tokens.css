@@ -1,14 +1,13 @@
 :root {
-  /* Visual foundation aligned to the CivicSync reference:
-     warm ivory surfaces, soft floating panels, deep forest accents. */
+  /* Shared chrome with the floating navbar: frosted white, soft border, light shadow. */
   --ink: #1a221e;
   --ink-muted: #4a554e;
   --ink-soft: #6b756f;
-  --panel-bg: rgba(255, 252, 247, 0.92);
-  --panel-bg-strong: rgba(255, 253, 249, 0.97);
-  --panel-solid: #fffdf9;
-  --border-soft: rgba(36, 48, 42, 0.1);
-  --border-strong: rgba(36, 48, 42, 0.16);
+  --panel-bg: rgba(255, 255, 255, 0.94);
+  --panel-bg-strong: rgba(255, 255, 255, 0.97);
+  --panel-solid: #ffffff;
+  --border-soft: rgba(36, 48, 42, 0.08);
+  --border-strong: rgba(36, 48, 42, 0.14);
   --accent: #1f4a3f;
   --accent-sage: #6f8578;
   --map-fallback: #e4ddd2;
@@ -16,10 +15,11 @@
     0 1px 2px rgba(28, 24, 20, 0.04),
     0 8px 24px rgba(28, 24, 20, 0.08);
   --shadow-float:
-    0 2px 4px rgba(28, 24, 20, 0.03),
-    0 18px 40px rgba(28, 24, 20, 0.12);
+    0 1px 2px rgba(28, 24, 20, 0.04),
+    0 10px 28px rgba(28, 24, 20, 0.08);
   --radius-md: 16px;
   --radius-lg: 22px;
+  --panel-blur: blur(16px) saturate(1.05);
   --font-display: 'Fraunces', 'Iowan Old Style', 'Palatino Linotype', serif;
   --font-body: 'Source Sans 3', 'Segoe UI', sans-serif;
   --z-map: 0;

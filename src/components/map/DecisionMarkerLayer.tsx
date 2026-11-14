@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { Marker, type Map as MapLibreMap } from 'maplibre-gl'
 import type { MunicipalRecord, RecordCategoryKind } from '../../types/municipalRecord'
+import { buildMarkerPreview } from './markerPreview'
 import styles from './DecisionMarker.module.css'
 
 interface DecisionMarkerLayerProps {
@@ -17,6 +18,55 @@ const CATEGORY_CLASS: Record<RecordCategoryKind, string> = {
   infrastructure: styles.infrastructure,
   environment: styles.environment,
   other: styles.other,
+}
+
+function prefersReducedMotion(): boolean {
+  return (
+    typeof window !== 'undefined' &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  )
+}
+
+function createPopup(record: MunicipalRecord): HTMLSpanElement {
+  const preview = buildMarkerPreview(record)
+  const popup = document.createElement('span')
+  popup.className = styles.popup
+  popup.setAttribute('role', 'tooltip')
+
+  const title = document.createElement('span')
+  title.className = styles.popupTitle
+  title.textContent = preview.title
+  popup.appendChild(title)
+
+  if (preview.category) {
+    const category = document.createElement('span')
+    category.className = styles.popupMeta
+    category.textContent = preview.category
+    popup.appendChild(category)
+  }
+
+  if (preview.status) {
+    const status = document.createElement('span')
+    status.className = styles.popupStatus
+    status.textContent = preview.status
+    popup.appendChild(status)
+  }
+
+  return popup
+}
+
+function createRadar(): HTMLSpanElement {
+  const radar = document.createElement('span')
+  radar.className = styles.radar
+  radar.setAttribute('aria-hidden', 'true')
+
+  const ringA = document.createElement('span')
+  ringA.className = styles.radarRing
+  const ringB = document.createElement('span')
+  ringB.className = `${styles.radarRing} ${styles.radarRingDelayed}`
+
+  radar.append(ringA, ringB)
+  return radar
 }
 
 /**
@@ -45,31 +95,61 @@ export function DecisionMarkerLayer({
     if (!map) return
 
     const markers: Marker[] = []
+    const reducedMotion = prefersReducedMotion()
 
     for (const record of records) {
+      const preview = buildMarkerPreview(record)
       const button = document.createElement('button')
       button.type = 'button'
       button.className = `${styles.marker} ${CATEGORY_CLASS[record.categoryKind]}`
-      button.setAttribute(
-        'aria-label',
-        `Municipal record: ${record.title} (${record.categoryRaw.replaceAll('_', ' ')})`,
-      )
+      if (reducedMotion) {
+        button.classList.add(styles.reducedMotion)
+      }
+
+      const ariaParts = [preview.title]
+      if (preview.category) ariaParts.push(preview.category)
+      if (preview.status) ariaParts.push(preview.status)
+      button.setAttribute('aria-label', `Municipal record: ${ariaParts.join(' · ')}`)
 
       const selected = record.id === selectedRecordId
       button.setAttribute('aria-pressed', selected ? 'true' : 'false')
       if (selected) {
         button.classList.add(styles.selected)
-        const label = document.createElement('span')
-        label.className = styles.label
-        const title = document.createElement('span')
-        title.className = styles.labelTitle
-        title.textContent = record.title
-        const meta = document.createElement('span')
-        meta.className = styles.labelMeta
-        meta.textContent = record.categoryRaw.replaceAll('_', ' ')
-        label.append(title, meta)
-        button.appendChild(label)
       }
+
+      button.append(createRadar(), createPopup(record))
+
+      const setPreview = (on: boolean) => {
+        button.classList.toggle(styles.preview, on)
+        button.style.zIndex = on || selectedIdRef.current === record.id ? '3' : ''
+      }
+
+      if (selected) {
+        button.style.zIndex = '3'
+      }
+
+      button.addEventListener('pointerenter', (event) => {
+        if (event.pointerType === 'mouse' || event.pointerType === 'pen') {
+          setPreview(true)
+        }
+      })
+      button.addEventListener('pointerleave', () => {
+        setPreview(false)
+      })
+      button.addEventListener('focus', () => {
+        setPreview(true)
+      })
+      button.addEventListener('blur', () => {
+        if (!button.matches(':hover')) {
+          setPreview(false)
+        }
+      })
+      // Touch has no hover — briefly surface the same card on press.
+      button.addEventListener('pointerdown', (event) => {
+        if (event.pointerType === 'touch') {
+          setPreview(true)
+        }
+      })
 
       const selectThis = () => {
         const alreadySelected = selectedIdRef.current === record.id

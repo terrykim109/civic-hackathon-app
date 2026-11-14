@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react'
+import { ResearchAssistantPanel } from '../components/assistant/ResearchAssistantPanel'
 import { AuthNav } from '../components/auth/AuthNav'
 import { TopNav } from '../components/layout/TopNav'
 import type { LocationSearchResolved } from '../components/layout/LocationSearch'
@@ -9,6 +10,8 @@ import { SelectedRecordPreview } from '../components/records/SelectedRecordPrevi
 import { SelectedWardPanel } from '../components/wards/SelectedWardPanel'
 import { useMapMunicipalRecords } from '../data/useMapMunicipalRecords'
 import { MAP_VIEWPORT, NEIGHBOURHOOD_LABEL } from '../data/mapLocation'
+import { buildResearchContext } from '../lib/assistant/buildResearchContext'
+import type { AssistantAreaContext } from '../lib/assistant/types'
 import { findNearbyProposals } from '../lib/nearby/findNearbyProposals'
 import {
   NEARBY_RADIUS_DEFAULT_M,
@@ -47,6 +50,9 @@ export function MapPage() {
   )
   const [nearbyCollapsed, setNearbyCollapsed] = useState(false)
   const [nearbyOpen, setNearbyOpen] = useState(false)
+  const [assistantArea, setAssistantArea] =
+    useState<AssistantAreaContext | null>(null)
+  const [assistantSessionKey, setAssistantSessionKey] = useState(0)
 
   const nearbyResults = useMemo(() => {
     if (!nearbySearch) return []
@@ -76,7 +82,6 @@ export function MapPage() {
   }
 
   const onSelectNearby = (record: MunicipalRecord) => {
-    // Same selection path as map markers: open SelectedRecordPreview.
     setSelectedRecord(record)
     setNearbyCollapsed(true)
     const center = nearbySelectionCenter(record)
@@ -93,7 +98,6 @@ export function MapPage() {
 
   const onWardSelect = (ward: WardSelection | null) => {
     setSelectedWard(ward)
-    // Contextual park marker belongs to the open ward list — clear on change/dismiss.
     clearParkFacilitySelection()
   }
 
@@ -105,6 +109,38 @@ export function MapPage() {
         camera.flyToLocation({ center })
       }
     }
+  }
+
+  const openAssistant = (area: AssistantAreaContext) => {
+    setAssistantArea(area)
+    setAssistantSessionKey((value) => value + 1)
+    setNearbyCollapsed(true)
+  }
+
+  const exploreSelectedWard = () => {
+    if (!selectedWard) return
+    openAssistant(
+      buildResearchContext({
+        label: selectedWard.name,
+        ward: selectedWard,
+        coordinates: nearbySearch?.coordinates ?? null,
+        records,
+        nearbyRadiusMeters,
+      }),
+    )
+  }
+
+  const exploreNearbySearch = () => {
+    if (!nearbySearch) return
+    openAssistant(
+      buildResearchContext({
+        label: nearbySearch.label,
+        coordinates: nearbySearch.coordinates,
+        ward: selectedWard,
+        records,
+        nearbyRadiusMeters,
+      }),
+    )
   }
 
   return (
@@ -139,6 +175,7 @@ export function MapPage() {
             selectedRecordId={selectedRecord?.id ?? null}
             onClose={() => onWardSelect(null)}
             onRecordSelect={onWardRecordSelect}
+            onExploreArea={exploreSelectedWard}
           />
         ) : null}
         {nearbyOpen && nearbySearch ? (
@@ -154,6 +191,14 @@ export function MapPage() {
             onToggleCollapsed={() => setNearbyCollapsed((value) => !value)}
             onClose={onLocationCleared}
             onSelect={onSelectNearby}
+            onExploreArea={exploreNearbySearch}
+          />
+        ) : null}
+        {assistantArea ? (
+          <ResearchAssistantPanel
+            key={assistantSessionKey}
+            area={assistantArea}
+            onClose={() => setAssistantArea(null)}
           />
         ) : null}
         {selectedRecord ? (
@@ -173,6 +218,7 @@ export function MapPage() {
         {nearbyOpen && nearbySearch
           ? `Nearby proposals: ${nearbyResults.length} within the selected radius. `
           : ''}
+        {assistantArea ? `Explorer assistant open for ${assistantArea.label}. ` : ''}
         {selectedWard
           ? `Selected ward ${selectedWard.wardId}: ${selectedWard.name}. `
           : ''}

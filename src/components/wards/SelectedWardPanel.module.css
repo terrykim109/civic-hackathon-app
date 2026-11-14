@@ -1,7 +1,7 @@
 .panel {
   /* Fill space above Nearby Proposals with only a small gap between panels. */
   --ward-panel-top: 5.5rem;
-  --nearby-reserved: calc(4.6rem + min(36dvh, 22rem));
+  --nearby-reserved: calc(4.6rem + min(28dvh, 16rem));
   --panel-stack-gap: 0.55rem;
   position: absolute;
   top: var(--ward-panel-top);
@@ -18,8 +18,8 @@
   border-radius: var(--radius-lg);
   background: var(--panel-bg);
   box-shadow: var(--shadow-float);
-  backdrop-filter: blur(18px) saturate(1.08);
-  -webkit-backdrop-filter: blur(18px) saturate(1.08);
+  backdrop-filter: var(--panel-blur);
+  -webkit-backdrop-filter: var(--panel-blur);
   color: var(--ink);
 }
 
@@ -44,7 +44,7 @@
 
 .title {
   margin: 0;
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-size: 1.15rem;
   font-weight: 650;
   letter-spacing: -0.02em;
@@ -108,6 +108,25 @@
   color: var(--ink-soft);
   font-size: 0.8rem;
   line-height: 1.4;
+}
+
+.explore {
+  justify-self: start;
+  margin: 0;
+  padding: 0.6rem 0.9rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #f7fbf8;
+  font-family: var(--font-body);
+  font-size: 0.84rem;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.explore:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
 .sectionTitle {

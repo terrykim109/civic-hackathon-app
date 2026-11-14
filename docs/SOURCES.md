@@ -76,4 +76,4 @@ Recorded from `node_modules/*/package.json` at Commit 01 setup:
 
 ## AI tooling
 
-Implementation assistance: Cursor agent (Composer). Generated code was reviewed against MapLibre docs, OpenFreeMap style usage, and local typecheck / lint / build / unit tests before acceptance.
+Implementation and documentation assistance: Cursor agent tooling (Composer / Auto). Generated or adapted code and docs were reviewed against the repository, MapLibre/Supabase/OpenRouter constraints, and local typecheck / lint / test / build runs before acceptance. See [`REFERENCES.md`](./REFERENCES.md) for the fuller dependency list and disclosure.

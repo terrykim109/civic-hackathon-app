@@ -18,6 +18,7 @@ import {
   ZOOM_STEP,
 } from './cameraNavigation'
 import { DecisionMarkerLayer } from './DecisionMarkerLayer'
+import { MapCursorAura } from './MapCursorAura'
 import { MAP_STYLE_URL } from './maplibreSetup'
 import {
   PARK_PROJECT_HIT_LAYER_IDS,
@@ -231,6 +232,7 @@ export function MapView({
   return (
     <div className={styles.root} aria-label="Interactive neighbourhood map">
       <div ref={containerRef} className={styles.map} />
+      <MapCursorAura map={mapInstance} />
       <WardLayer
         map={mapInstance}
         selectedWardId={selectedWardId}

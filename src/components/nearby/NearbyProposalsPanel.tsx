@@ -21,6 +21,7 @@ interface NearbyProposalsPanelProps {
   onToggleCollapsed: () => void
   onClose: () => void
   onSelect: (record: MunicipalRecord) => void
+  onExploreArea?: () => void
 }
 
 export function NearbyProposalsPanel({
@@ -33,6 +34,7 @@ export function NearbyProposalsPanel({
   onToggleCollapsed,
   onClose,
   onSelect,
+  onExploreArea,
 }: NearbyProposalsPanelProps) {
   const radiusLabel = formatNearbyRadiusLabel(radiusMeters)
   const count = results.length
@@ -78,6 +80,15 @@ export function NearbyProposalsPanel({
 
       {!collapsed ? (
         <div className={styles.body}>
+          {onExploreArea ? (
+            <button
+              type="button"
+              className={styles.explore}
+              onClick={onExploreArea}
+            >
+              Explore this area
+            </button>
+          ) : null}
           <div className={styles.sliderBlock}>
             <div className={styles.sliderTop}>
               <label className={styles.sliderLabel} htmlFor="nearby-radius-slider">

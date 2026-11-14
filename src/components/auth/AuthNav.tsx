@@ -2,17 +2,24 @@ import { Link } from 'react-router-dom'
 import { useAuth } from '../../auth/useAuth'
 import styles from './AuthNav.module.css'
 
+interface AuthNavProps {
+  /** `inline` sits inside TopNav; `floating` is a standalone map control. */
+  variant?: 'floating' | 'inline'
+}
+
 /**
- * Top-right auth navigation for the public map chrome.
+ * Auth navigation for the public map chrome.
  * Visibility is UX only — /admin remains protected by AdminRoute + RLS.
  */
-export function AuthNav() {
+export function AuthNav({ variant = 'floating' }: AuthNavProps) {
   const { authLoading, adminLoading, isAdmin, user, signOut } = useAuth()
   const busy = authLoading || adminLoading
+  const rootClass =
+    variant === 'inline' ? `${styles.root} ${styles.inline}` : styles.root
 
   if (busy) {
     return (
-      <div className={styles.root} aria-busy="true">
+      <div className={rootClass} aria-busy="true">
         <span className={styles.muted}>Checking access…</span>
       </div>
     )
@@ -20,7 +27,7 @@ export function AuthNav() {
 
   if (isAdmin && user) {
     return (
-      <div className={styles.root}>
+      <div className={rootClass}>
         <Link className={styles.link} to="/admin">
           Admin
         </Link>
@@ -38,8 +45,8 @@ export function AuthNav() {
   }
 
   return (
-    <div className={styles.root}>
-      <Link className={styles.link} to="/admin/login">
+    <div className={rootClass}>
+      <Link className={styles.login} to="/admin/login">
         Admin Login
       </Link>
     </div>

@@ -93,7 +93,7 @@ New proposals default to `publication_status = draft`. Publishing writes `publis
 | Fetch published rows (anon client) | `src/lib/proposals/fetchPublishedRecords.ts` |
 | Safe row → MunicipalRecord adapter | `src/lib/proposals/adaptPublishedRecord.ts` |
 | Map data hook | `src/data/useMapMunicipalRecords.ts` |
-| Status banner | `src/components/map/MapRecordsStatus.tsx` |
+| Map data hook status | Surfaced via `MapPage` / screen-reader status (dedicated banner removed) |
 
 The public map merges bundled `MUNICIPAL_RECORDS` with published Supabase rows. Static ids win on collision. Draft/archived rows are filtered client-side and blocked by RLS. If Supabase is unset or the request fails, the static map remains available and failures are surfaced (not treated as an empty success).
 
@@ -134,3 +134,59 @@ Administrators load and update `feedback_submissions` through the authenticated 
 3. Honeypot field rejection.
 
 See `supabase/migrations/20261114020000_feedback_rate_limit_hardening.sql`. Deployment steps: [`docs/DEPLOYMENT.md`](./DEPLOYMENT.md).
+
+## Municipal research assistant (OpenRouter)
+
+| Concern | Location |
+| --- | --- |
+| Edge Function | `supabase/functions/municipal-research-assistant/` |
+| Browser invoke | `src/lib/assistant/assistantApi.ts` → `functions.invoke` |
+| Context construction | `src/lib/assistant/buildResearchContext.ts` |
+
+There is still **no Express backend**. The OpenRouter API key is a **Supabase secret**, never a `VITE_*` value.
+
+### Configure secrets
+
+```bash
+npx supabase secrets set OPENROUTER_API_KEY=sk-or-...
+npx supabase secrets set OPENROUTER_MODEL=openai/gpt-4.1-mini
+```
+
+`OPENROUTER_MODEL` is optional (defaults to `openai/gpt-4.1-mini` in the function).
+
+### Deploy the function
+
+```bash
+npx supabase functions deploy municipal-research-assistant
+```
+
+`config.toml` sets `verify_jwt = false` so unauthenticated map visitors can call with the project anon key. The function still requires an `Authorization` bearer token (anon JWT or user session), applies an in-memory per-client rate limit, validates request size/history length, and validates model JSON before returning it.
+
+Conversation history is **client session state** only for this version — no assistant conversation table.
+
+### Evidence retrieval (AI Commit 2)
+
+The same Edge Function fetches official documents server-side from URLs already present on selected municipal records (`sources`, `evidence`, `relatedProcesses`, `officialSourceUrl`).
+
+Guards:
+
+- HTTPS only on approved municipal host suffixes (`toronto.ca`, `ontario.ca`, `gov.on.ca`, `canada.ca`, `gc.ca`)
+- SSRF blocks for localhost / private IPs / credentialed URLs / raw IPs
+- Document size, timeout, and content-type limits; in-memory response cache
+- Manual single-hop redirects only when the target remains allowlisted
+- Model citations are filtered to retrieved/allowlisted hrefs (no invented links)
+
+Unsupported / inaccessible documents are reported in the evidence pack as partial/unavailable rather than failing the whole turn when OpenRouter still responds.
+
+### Research briefs (AI Commit 3)
+
+Request body may include `mode: "research_brief"`. The function reuses the same evidence retrieval + OpenRouter path and returns a validated `researchBrief` object with sectioned findings (`documented_fact` / `potential_impact` / `hypothetical` / `uncertainty`). Citations are filtered to retrieved/allowlisted hrefs. Incomplete model briefs fall back to an uncertainties section rather than inventing content. `conversationComplete` stays false after a brief so residents can ask follow-up questions.
+
+### Interactive / multilingual turns (AI Commit 4)
+
+Request body also accepts:
+
+- `language` — supported codes: `en`, `fr`, `zh`, `es`, `pt`, `ta`, `pa`, `ar`
+- `detailLevel` — `concise` (default) or `detailed`
+
+Responses may include `glossary`, `detailedExplanation`, and `comparisonNote`. Free-text questions are first-class; `options` remain optional suggestions only.

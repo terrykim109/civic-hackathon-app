@@ -22,10 +22,13 @@
 
 .marker::after {
   content: '';
+  position: relative;
+  z-index: 1;
   width: 0.45rem;
   height: 0.45rem;
   border-radius: 999px;
   background: #fff8f2;
+  pointer-events: none;
 }
 
 .housing {
@@ -53,7 +56,8 @@
 }
 
 .marker:hover,
-.marker:focus-visible {
+.marker:focus-visible,
+.preview {
   transform: translateY(-4px) scale(1.06);
   box-shadow:
     0 0 0 8px color-mix(in srgb, var(--marker-fill, #c45c3e) 28%, transparent),
@@ -73,36 +77,166 @@
     0 12px 26px rgba(28, 24, 20, 0.28);
 }
 
-.label {
+/* —— Hover / selection popup —— */
+.popup {
   position: absolute;
   left: 50%;
-  bottom: calc(100% + 0.55rem);
+  bottom: calc(100% + 0.7rem);
   z-index: 2;
   display: grid;
-  gap: 0.15rem;
+  gap: 0.12rem;
   width: max-content;
-  max-width: min(16rem, 70vw);
-  padding: 0.45rem 0.65rem;
-  border: 1px solid var(--border-soft);
+  max-width: min(15.5rem, 68vw);
+  padding: 0.5rem 0.7rem;
+  border: 1px solid rgba(36, 48, 42, 0.1);
   border-radius: 12px;
-  background: var(--panel-bg-strong);
-  box-shadow: var(--shadow-panel);
+  background: rgba(255, 253, 249, 0.97);
+  box-shadow:
+    0 1px 2px rgba(28, 24, 20, 0.04),
+    0 10px 24px rgba(28, 24, 20, 0.12);
   color: var(--ink);
   font-family: var(--font-body);
   line-height: 1.3;
-  text-align: center;
-  transform: translateX(-50%);
+  text-align: left;
+  transform: translateX(-50%) translateY(0.2rem);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity 140ms ease,
+    transform 140ms ease,
+    visibility 140ms ease;
+}
+
+.popup::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-right: 1px solid rgba(36, 48, 42, 0.1);
+  border-bottom: 1px solid rgba(36, 48, 42, 0.1);
+  background: rgba(255, 253, 249, 0.97);
+  transform: translateX(-50%) translateY(-55%) rotate(45deg);
+}
+
+.popupTitle {
+  color: var(--ink);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.popupMeta {
+  color: var(--ink-soft);
+  font-size: 0.7rem;
+  font-weight: 550;
+}
+
+.popupStatus {
+  margin-top: 0.1rem;
+  color: var(--accent);
+  font-size: 0.68rem;
+  font-weight: 650;
+}
+
+.preview .popup,
+.selected .popup,
+.marker:focus-visible .popup {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+  /* Keep the card in the hit target so marker→popup moves do not flicker. */
+  pointer-events: auto;
+}
+
+/* —— Radar rings (centred on marker, map-anchored via Marker DOM) —— */
+.radar {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  z-index: 0;
+  width: 0;
+  height: 0;
   pointer-events: none;
 }
 
-.labelTitle {
-  font-size: 0.78rem;
-  font-weight: 600;
+.radarRing {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 1.5px solid color-mix(in srgb, var(--marker-fill, #1f4a3f) 42%, #ffffff);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--marker-fill, #1f4a3f) 14%, transparent);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--marker-fill, #1f4a3f) 18%, transparent);
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.45);
+  pointer-events: none;
 }
 
-.labelMeta {
-  color: var(--ink-soft);
-  font-size: 0.68rem;
-  font-weight: 500;
-  text-transform: capitalize;
+.preview .radarRing,
+.marker:focus-visible .radarRing {
+  animation: radarExpand 2s cubic-bezier(0.22, 0.61, 0.36, 1) infinite;
+}
+
+.radarRingDelayed {
+  animation-delay: 1s;
+}
+
+.preview .radarRingDelayed,
+.marker:focus-visible .radarRingDelayed {
+  animation-delay: 1s;
+}
+
+@keyframes radarExpand {
+  0% {
+    opacity: 0.5;
+    transform: translate(-50%, -50%) scale(0.45);
+  }
+  70% {
+    opacity: 0.12;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(2.55);
+  }
+}
+
+.reducedMotion .radarRing,
+.reducedMotion.preview .radarRing,
+.reducedMotion:focus-visible .radarRing {
+  animation: none;
+  opacity: 0;
+}
+
+.reducedMotion.preview .radarRing:first-child,
+.reducedMotion:focus-visible .radarRing:first-child {
+  opacity: 0.28;
+  transform: translate(-50%, -50%) scale(1.35);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marker {
+    transition: none;
+  }
+
+  .popup {
+    transition: none;
+  }
+
+  .radarRing {
+    animation: none !important;
+  }
+
+  .preview .radarRing:first-child,
+  .marker:focus-visible .radarRing:first-child {
+    opacity: 0.28;
+    transform: translate(-50%, -50%) scale(1.35);
+  }
+
+  .radarRingDelayed {
+    opacity: 0 !important;
+  }
 }

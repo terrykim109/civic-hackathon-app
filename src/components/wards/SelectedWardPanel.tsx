@@ -13,6 +13,7 @@ interface SelectedWardPanelProps {
   selectedRecordId: string | null
   onClose: () => void
   onRecordSelect: (record: MunicipalRecord) => void
+  onExploreArea?: () => void
 }
 
 export function SelectedWardPanel({
@@ -22,6 +23,7 @@ export function SelectedWardPanel({
   selectedRecordId,
   onClose,
   onRecordSelect,
+  onExploreArea,
 }: SelectedWardPanelProps) {
   const { matched, missingDecisionIds } = getRecordsForWard(ward, records)
   const wardParkProjects = getParkProjectsForWard(ward.wardId, parkProjects)
@@ -63,6 +65,16 @@ export function SelectedWardPanel({
           projects below use each project’s own Open Data ward_number field —
           not map proximity.
         </p>
+
+        {onExploreArea ? (
+          <button
+            type="button"
+            className={styles.explore}
+            onClick={onExploreArea}
+          >
+            Explore this area
+          </button>
+        ) : null}
 
         <section>
           <h3 className={styles.sectionTitle}>Associated municipal records</h3>

@@ -18,7 +18,7 @@ Set **only**:
 - `VITE_SUPABASE_URL`
 - `VITE_SUPABASE_ANON_KEY`
 
-Do **not** add `SUPABASE_SERVICE_ROLE_KEY` (or any service-role secret) as a `VITE_*` variable. The service role must never ship in the browser bundle.
+Do **not** add `SUPABASE_SERVICE_ROLE_KEY`, `OPENROUTER_API_KEY`, or any other server secret as a `VITE_*` variable. Those must never ship in the browser bundle.
 
 ## Supabase
 
@@ -27,6 +27,7 @@ Do **not** add `SUPABASE_SERVICE_ROLE_KEY` (or any service-role secret) as a `VI
 3. Create Auth users for administrators; insert their `auth.users.id` into `admin_users` with the service role (see `supabase/seed_admin.example.sql`).
 4. Keep public signup disabled for production (`auth.email.enable_signup` / equivalent).
 5. Auth redirect / site URL: set the Supabase Auth **Site URL** and **Redirect URLs** to the Vercel production origin (and preview origins if used). Email/password admin login uses the SPA origin; no OAuth redirect is required for the current flow.
+6. Research assistant: set Edge Function secrets `OPENROUTER_API_KEY` (required) and optional `OPENROUTER_MODEL`, then deploy `municipal-research-assistant` (see `docs/SUPABASE.md`).
 
 ## Post-deploy smoke checklist (manual)
 
@@ -39,6 +40,8 @@ Do **not** add `SUPABASE_SERVICE_ROLE_KEY` (or any service-role secret) as a `VI
 - [ ] Feedback submit succeeds for a published open proposal; fails for draft/closed.
 - [ ] `/admin/feedback` lists the submission; status update + CSV export work.
 - [ ] Anonymous PostgREST SELECT on `feedback_submissions` returns empty/denied.
+- [ ] “Explore this area” opens the research assistant; a guided turn returns without exposing OpenRouter keys in the network payload.
+- [ ] Assistant citations resolve to allowlisted official municipal URLs associated with the selected records; invented links do not appear.
 
 ## Local live RLS
 
