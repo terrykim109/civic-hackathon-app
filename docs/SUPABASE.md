@@ -86,3 +86,14 @@ Public signup remains disabled (`auth.email.enable_signup = false`). Email/passw
 | Supabase CRUD | `src/lib/proposals/proposalApi.ts` |
 
 New proposals default to `publication_status = draft`. Publishing writes `published` on the same `municipal_records` row. There is no second proposal model and no separate feedback-enable toggle — participation fields on `MunicipalRecord` remain authoritative.
+
+## Public map sync (Commit 4)
+
+| Concern | Location |
+| --- | --- |
+| Fetch published rows (anon client) | `src/lib/proposals/fetchPublishedRecords.ts` |
+| Safe row → MunicipalRecord adapter | `src/lib/proposals/adaptPublishedRecord.ts` |
+| Map data hook | `src/data/useMapMunicipalRecords.ts` |
+| Status banner | `src/components/map/MapRecordsStatus.tsx` |
+
+The public map merges bundled `MUNICIPAL_RECORDS` with published Supabase rows. Static ids win on collision. Draft/archived rows are filtered client-side and blocked by RLS. If Supabase is unset or the request fails, the static map remains available and failures are surfaced (not treated as an empty success).

@@ -139,7 +139,7 @@ Routing uses `react-router-dom`. Public map is `/`. Admin login is `/admin/login
 ## Current limitations
 
 - Public map still uses static GeoJSON; Supabase published reads are not wired into MapLibre yet.
-- Admin login and proposal draft/publish UI exist; public map still uses static GeoJSON; resident feedback form/inbox are not built yet.
+- Admin login and proposal draft/publish UI exist; the public map merges static GeoJSON with published Supabase proposals. Resident feedback form/inbox are not built yet.
 - Building heights exist only where OpenMapTiles provides `render_height`. Many footprints may be low or zero.
 - Tile availability depends on the public OpenFreeMap service.
 - Live Postgres RLS scripts require local Supabase and are not part of default `npm test`.
