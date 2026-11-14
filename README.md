@@ -1,6 +1,6 @@
 # CivicSync
 
-Map-first municipal decision explorer.
+Map-first municipal decision explorer — browse proposals on a 3D map, see nearby notices, leave feedback, and ask an evidence-grounded explorer assistant. Civic Hackathon a team of four: yunxi, aryan, aadya, terry
 
 ## Technology
 
@@ -51,12 +51,21 @@ Optional backend (Supabase) env vars are listed in [`.env.example`](.env.example
 - Home camera uses browser geolocation when allowed; otherwise the Kennedy/Danforth case-study focus.
 - Map tiles require network access to OpenFreeMap.
 - Supabase RLS gates published public reads and admin writes; drafts/archived stay private. Resident feedback and the admin inbox require configured Supabase + provisioned admins.
+- The guided research assistant requires a deployed `municipal-research-assistant` Edge Function plus server-side `OPENROUTER_API_KEY` (never a `VITE_*` variable).
 
-## Data Documentation
+## Documentation
 
-See [Data Methodology](docs/DATA_METHODOLOGY.md)
-for data sources, processing, field definitions,
-validation results, and participation status checks.
-## Attribution
-
-See [`docs/SOURCES.md`](docs/SOURCES.md). Architecture notes: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md). Backend: [`docs/SUPABASE.md`](docs/SUPABASE.md).
+| Doc | Purpose |
+| --- | --- |
+| [`docs/REQUIREMENTS.md`](docs/REQUIREMENTS.md) | Functional/non-functional requirements + IDs |
+| [`docs/UML.md`](docs/UML.md) | Use-case, component, class, and sequence diagrams |
+| [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | Architecture and technology trade-offs |
+| [`docs/SCALABILITY.md`](docs/SCALABILITY.md) | Scale scenarios and bottlenecks |
+| [`docs/IMPLEMENTATION.md`](docs/IMPLEMENTATION.md) | Component responsibilities vs proposed work |
+| [`docs/TRACEABILITY.md`](docs/TRACEABILITY.md) | Requirements traceability matrix |
+| [`docs/VALIDATION.md`](docs/VALIDATION.md) | Debugging/validation evidence |
+| [`docs/REFERENCES.md`](docs/REFERENCES.md) | Dependencies, licences, AI disclosure |
+| [`docs/DATA_METHODOLOGY.md`](docs/DATA_METHODOLOGY.md) | Pointer to Toronto data methodology handoff |
+| [`docs/SOURCES.md`](docs/SOURCES.md) | Attribution |
+| [`docs/SUPABASE.md`](docs/SUPABASE.md) | Backend operator notes |
+| [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md) | Deployment checklist |
