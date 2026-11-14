@@ -59,3 +59,30 @@ Default CI / `npm test` does **not** start Postgres. Do not treat live RLS SQL a
 ## Admin provisioning
 
 Administrators cannot self-register. Insert into `admin_users` only with the service role. Client RLS denies all `admin_users` mutations for `anon` / `authenticated`.
+
+## Administrator authentication (Commit 2)
+
+| Concern | Location |
+| --- | --- |
+| Auth context + session | `src/auth/AuthProvider.tsx` |
+| Admin check (`is_admin` RPC → `admin_users`) | `src/auth/verifyAdmin.ts` |
+| Route gate helper | `src/auth/adminGate.ts` |
+| Login page | `/admin/login` → `src/pages/AdminLoginPage.tsx` |
+| Protected landing | `/admin` → `src/pages/AdminHomePage.tsx` |
+| Top-right nav | `src/components/auth/AuthNav.tsx` |
+
+There is no `user_roles` table in this project. Administrator membership is the `admin_users` allow-list, exposed to the client only through `public.is_admin()` (SECURITY DEFINER). JWT metadata is never trusted for privileges.
+
+Public signup remains disabled (`auth.email.enable_signup = false`). Email/password sign-in is enabled for provisioned accounts only.
+
+## Proposal management (Commit 3)
+
+| Concern | Location |
+| --- | --- |
+| List + filters | `/admin` → `src/pages/AdminHomePage.tsx` |
+| Create / edit / preview / publish | `/admin/proposals/new`, `/admin/proposals/:id` |
+| Form ↔ MunicipalRecord | `src/lib/proposals/proposalForm.ts` |
+| Validation | `src/lib/proposals/validateProposal.ts` |
+| Supabase CRUD | `src/lib/proposals/proposalApi.ts` |
+
+New proposals default to `publication_status = draft`. Publishing writes `published` on the same `municipal_records` row. There is no second proposal model and no separate feedback-enable toggle — participation fields on `MunicipalRecord` remain authoritative.

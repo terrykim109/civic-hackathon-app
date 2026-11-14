@@ -91,6 +91,7 @@ export interface Database {
           updated_at?: string
         }
         Update: Partial<MunicipalRecordRow>
+        Relationships: []
       }
       feedback_submissions: {
         Row: FeedbackSubmissionRow
@@ -99,15 +100,23 @@ export interface Database {
           created_at?: string
         }
         Update: Partial<FeedbackSubmissionRow>
+        Relationships: []
       }
       admin_users: {
         Row: AdminUserRow
         Insert: Omit<AdminUserRow, 'created_at'> & { created_at?: string }
         Update: Partial<AdminUserRow>
+        Relationships: []
       }
     }
+    Views: Record<string, never>
     Functions: {
       is_admin: { Args: Record<string, never>; Returns: boolean }
     }
+    Enums: {
+      publication_status: PublicationStatus
+      feedback_review_status: FeedbackReviewStatus
+    }
+    CompositeTypes: Record<string, never>
   }
 }

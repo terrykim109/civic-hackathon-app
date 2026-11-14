@@ -10,6 +10,8 @@ Map-first municipal decision explorer.
 | React DOM | 19.3.1 | MIT |
 | MapLibre GL JS | 6.18.0 | BSD-3-Clause |
 | Lucide React | 1.72.0 | ISC |
+| React Router | 7.x | MIT |
+| @supabase/supabase-js | 2.x | MIT |
 | Vite | 8.3.8 | MIT |
 | TypeScript | 5.9.3 | Apache-2.0 |
 | `@vitejs/plugin-react` | 6.3.0 | MIT |

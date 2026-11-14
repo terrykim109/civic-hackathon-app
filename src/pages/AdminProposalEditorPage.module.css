@@ -1,0 +1,27 @@
+.shellWide {
+  width: min(56rem, 100%);
+}
+
+.headerRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.success {
+  margin: 0;
+  padding: 0.7rem 0.8rem;
+  border: 1px solid rgba(31, 74, 63, 0.22);
+  border-radius: 12px;
+  background: rgba(31, 74, 63, 0.08);
+  color: var(--accent);
+  font-size: 0.86rem;
+  line-height: 1.4;
+}
+
+@media (max-width: 720px) {
+  .headerRow {
+    flex-direction: column;
+  }
+}

@@ -134,10 +134,12 @@ Extrusions remain geographically aligned during pitch/bearing changes because th
 
 Admin privileges live in `admin_users` and are checked via `is_admin()`. Clients cannot self-assign admin. Feedback rows are admin-only; public feedback INSERT is deferred.
 
+Routing uses `react-router-dom`. Public map is `/`. Admin login is `/admin/login`. `/admin` lists proposals; `/admin/proposals/new` and `/admin/proposals/:id` edit them. All `/admin/*` management routes are wrapped by `AdminRoute` (session + `is_admin()`). Writes go through `municipal_records` and remain subject to RLS.
+
 ## Current limitations
 
 - Public map still uses static GeoJSON; Supabase published reads are not wired into MapLibre yet.
-- No admin login UI, dashboard, or resident feedback form in this increment.
+- Admin login and proposal draft/publish UI exist; public map still uses static GeoJSON; resident feedback form/inbox are not built yet.
 - Building heights exist only where OpenMapTiles provides `render_height`. Many footprints may be low or zero.
 - Tile availability depends on the public OpenFreeMap service.
 - Live Postgres RLS scripts require local Supabase and are not part of default `npm test`.

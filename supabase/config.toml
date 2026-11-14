@@ -29,5 +29,7 @@ additional_redirect_urls = ["http://localhost:5173"]
 enable_signup = false
 
 [auth.email]
-enabled = false
+# Email/password sign-in for provisioned admins; public self-registration stays off.
+enabled = true
+enable_signup = false
 enable_confirmations = false
