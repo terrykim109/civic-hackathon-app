@@ -12,6 +12,7 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.119.0",
     "@types/node": "^20.0.0",
     "lucide-react": "^1.72.0",
     "maplibre-gl": "^6.18.0",

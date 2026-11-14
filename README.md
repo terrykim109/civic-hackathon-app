@@ -27,6 +27,8 @@ npm run dev
 
 Open the printed local URL (typically `http://localhost:5173`).
 
+Optional backend (Supabase) env vars are listed in [`.env.example`](.env.example). The map UI does not require them yet. See [`docs/SUPABASE.md`](docs/SUPABASE.md).
+
 ## Scripts
 
 | Command | Purpose |
@@ -46,6 +48,7 @@ Open the printed local URL (typically `http://localhost:5173`).
 - Record locations are representative points, not surveyed parcels or impact boundaries.
 - Home camera uses browser geolocation when allowed; otherwise the Kennedy/Danforth case-study focus.
 - Map tiles require network access to OpenFreeMap.
+- Supabase migrations define RLS for published records and private feedback; the public app is not yet wired to Supabase reads/writes.
 
 ## Data Documentation
 
@@ -54,4 +57,4 @@ for data sources, processing, field definitions,
 validation results, and participation status checks.
 ## Attribution
 
-See [`docs/SOURCES.md`](docs/SOURCES.md). Architecture notes: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
+See [`docs/SOURCES.md`](docs/SOURCES.md). Architecture notes: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md). Backend: [`docs/SUPABASE.md`](docs/SUPABASE.md).

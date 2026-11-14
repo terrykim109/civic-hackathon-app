@@ -2,7 +2,7 @@
 
 ## Chosen approach
 
-CivicSync is a **client-only Vite + React + TypeScript** app. The geographic surface is **MapLibre GL JS** rendering the **OpenFreeMap Liberty** vector style.
+CivicSync is a **Vite + React + TypeScript** app. The geographic surface is **MapLibre GL JS** rendering the **OpenFreeMap Liberty** vector style. Persistent municipal records and private feedback use **Supabase (PostgreSQL + Auth + RLS)** — no separate Express API. The map still loads static GeoJSON until a later sync increment.
 
 ### Why MapLibre + OpenFreeMap
 
@@ -122,10 +122,22 @@ Missing height handling: `coalesce(to-number(render_height), 0)` / same for `ren
 
 Extrusions remain geographically aligned during pitch/bearing changes because they are MapLibre `fill-extrusion` layers on the vector tile footprints. Flat `building` fill in the style only runs through zoom 14; extrusions take over from zoom 14+.
 
+## Supabase foundation
+
+| Concern | Location |
+| --- | --- |
+| SQL migration + RLS | `supabase/migrations/20261114000000_backend_foundation.sql` |
+| Browser client (anon key) | `src/lib/supabase/client.ts` |
+| Row ↔ MunicipalRecord mapping | `src/lib/supabase/municipalRecordMapper.ts` |
+| Feedback form gating rule | `src/lib/feedback/feedbackAvailability.ts` |
+| Operator docs | `docs/SUPABASE.md` |
+
+Admin privileges live in `admin_users` and are checked via `is_admin()`. Clients cannot self-assign admin. Feedback rows are admin-only; public feedback INSERT is deferred.
+
 ## Current limitations
 
-- No backend, auth, AI, or municipal business data layers.
-- No decision markers or analysis panels yet.
-- Building heights exist only where OpenMapTiles provides `render_height` (derived from OSM height / levels where available). Many footprints may be low or zero.
+- Public map still uses static GeoJSON; Supabase published reads are not wired into MapLibre yet.
+- No admin login UI, dashboard, or resident feedback form in this increment.
+- Building heights exist only where OpenMapTiles provides `render_height`. Many footprints may be low or zero.
 - Tile availability depends on the public OpenFreeMap service.
-- Interactive rotate/pitch depends on pointer/touch hardware; visual verification of gestures may require a local browser.
+- Live Postgres RLS scripts require local Supabase and are not part of default `npm test`.
