@@ -91,6 +91,17 @@ Home framing (pitch/bearing/zoom/limits) is centralized in `MAP_VIEWPORT`. After
 
 `configureMapNavigation` enables pan, scroll zoom, drag-rotate, keyboard, touch zoom/rotate, and `touchPitch` once per map instance. Floating `CameraControls` call `MapCameraApi` (`easeZoomBy` / `easeToHomeCamera`) on the same instance. Gesture rotate/pitch remain available on the canvas.
 
+## Location search
+
+| Concern | Location |
+| --- | --- |
+| Query validation | `src/data/geocoding/validateQuery.ts` |
+| Photon client + cache | `src/data/geocoding/photon.ts` |
+| Search UI (combobox) | `src/components/layout/LocationSearch.tsx` |
+| Camera fly-to | `MapCameraApi.flyToLocation` → `flyToLocation` in `cameraNavigation.ts` |
+
+Search uses the existing MapLibre instance only. Debounced typing (and Enter / Search) fetches Canadian-biased suggestions; selecting a result calls `flyTo` with elevated pitch/bearing preserved.
+
 ## 3D buildings (Commit 02)
 
 Inspected from the live OpenFreeMap Liberty style (`https://tiles.openfreemap.org/styles/liberty`):

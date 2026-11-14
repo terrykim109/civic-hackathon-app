@@ -14,6 +14,7 @@ import {
   configureMapNavigation,
   easeToHomeCamera,
   easeZoomBy,
+  flyToLocation,
   ZOOM_STEP,
 } from './cameraNavigation'
 import { DecisionMarkerLayer } from './DecisionMarkerLayer'
@@ -118,6 +119,7 @@ export function MapView({
       zoomIn: () => easeZoomBy(map, ZOOM_STEP),
       zoomOut: () => easeZoomBy(map, -ZOOM_STEP),
       resetView: () => easeToHomeCamera(map, homeViewportRef.current),
+      flyToLocation: (options) => flyToLocation(map, options),
       getZoom: () => map.getZoom(),
     }
 

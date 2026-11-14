@@ -17,6 +17,16 @@ MapLibre’s on-map attribution control is enabled and includes OpenFreeMap / Op
 - **Decision marker:** uses the same indicative address midpoint for the Toronto rental demolition record. **Not** a surveyed property boundary.
 - Place names in the nav chip come from OpenMapTiles `place` features near the map centre (not a geocoding API).
 
+## Location search (geocoding)
+
+| Source | Role | Notes |
+| --- | --- | --- |
+| [Photon](https://github.com/komoot/photon) (Komoot public API) | Forward geocoding + suggestions | OSM-derived; Toronto `lat`/`lon` bias; client filters to `countrycode=CA` |
+
+Implementation: `src/data/geocoding/photon.ts`. Suggestions use a 400ms debounce (not a request per keystroke). Enter / Search runs immediately. Results are cached in-memory per normalized query. Photon was chosen over public Nominatim because Nominatim forbids autocomplete and does not reliably resolve Canadian postal codes.
+
+A geocoded point is an indicative map location only — not a property boundary or project impact area. Attribution appears in the suggestions panel alongside the existing map credit.
+
 ## Toronto ward boundaries (static)
 
 Source file: [`src/data/wards.geojson`](../src/data/wards.geojson) — 25 MultiPolygon features with `ward_id`, `name`, `decision_ids`, and `role: navigation_boundary_not_impact_area`. Loaded by MapLibre via a Vite asset URL (not embedded in the JS bundle). Ward polygons are navigation aids only; they are not project impact areas.

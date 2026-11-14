@@ -6,10 +6,10 @@
       "properties": {
         "ward_id": "7",
         "name": "Humber River-Black Creek",
+        "role": "navigation_boundary_not_impact_area",
         "decision_ids": [
           "toronto-apted-amenities-2026"
-        ],
-        "role": "navigation_boundary_not_impact_area"
+        ]
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -3271,8 +3271,8 @@
       "properties": {
         "ward_id": "6",
         "name": "York Centre",
-        "decision_ids": [],
-        "role": "navigation_boundary_not_impact_area"
+        "role": "navigation_boundary_not_impact_area",
+        "decision_ids": []
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -6130,8 +6130,8 @@
       "properties": {
         "ward_id": "18",
         "name": "Willowdale",
-        "decision_ids": [],
-        "role": "navigation_boundary_not_impact_area"
+        "role": "navigation_boundary_not_impact_area",
+        "decision_ids": []
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -7681,8 +7681,8 @@
       "properties": {
         "ward_id": "11",
         "name": "University-Rosedale",
-        "decision_ids": [],
-        "role": "navigation_boundary_not_impact_area"
+        "role": "navigation_boundary_not_impact_area",
+        "decision_ids": []
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -10592,8 +10592,8 @@
       "properties": {
         "ward_id": "19",
         "name": "Beaches-East York",
-        "decision_ids": [],
-        "role": "navigation_boundary_not_impact_area"
+        "role": "navigation_boundary_not_impact_area",
+        "decision_ids": []
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -15659,8 +15659,8 @@
       "properties": {
         "ward_id": "20",
         "name": "Scarborough Southwest",
-        "decision_ids": [],
-        "role": "navigation_boundary_not_impact_area"
+        "role": "navigation_boundary_not_impact_area",
+        "decision_ids": []
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -28582,8 +28582,10 @@
       "properties": {
         "ward_id": "25",
         "name": "Scarborough-Rouge Park",
-        "decision_ids": [],
-        "role": "navigation_boundary_not_impact_area"
+        "role": "navigation_boundary_not_impact_area",
+        "decision_ids": [
+          "toronto-notice-8023"
+        ]
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -34829,8 +34831,8 @@
       "properties": {
         "ward_id": "23",
         "name": "Scarborough North",
-        "decision_ids": [],
-        "role": "navigation_boundary_not_impact_area"
+        "role": "navigation_boundary_not_impact_area",
+        "decision_ids": []
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -36888,8 +36890,8 @@
       "properties": {
         "ward_id": "24",
         "name": "Scarborough-Guildwood",
-        "decision_ids": [],
-        "role": "navigation_boundary_not_impact_area"
+        "role": "navigation_boundary_not_impact_area",
+        "decision_ids": []
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -40451,8 +40453,8 @@
       "properties": {
         "ward_id": "21",
         "name": "Scarborough Centre",
-        "decision_ids": [],
-        "role": "navigation_boundary_not_impact_area"
+        "role": "navigation_boundary_not_impact_area",
+        "decision_ids": []
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -41890,8 +41892,8 @@
       "properties": {
         "ward_id": "22",
         "name": "Scarborough-Agincourt",
-        "decision_ids": [],
-        "role": "navigation_boundary_not_impact_area"
+        "role": "navigation_boundary_not_impact_area",
+        "decision_ids": []
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -43137,8 +43139,8 @@
       "properties": {
         "ward_id": "15",
         "name": "Don Valley West",
-        "decision_ids": [],
-        "role": "navigation_boundary_not_impact_area"
+        "role": "navigation_boundary_not_impact_area",
+        "decision_ids": []
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -46768,10 +46770,10 @@
       "properties": {
         "ward_id": "12",
         "name": "Toronto-St. Paul's",
+        "role": "navigation_boundary_not_impact_area",
         "decision_ids": [
           "toronto-wychwood-streetcar-2026"
-        ],
-        "role": "navigation_boundary_not_impact_area"
+        ]
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -47993,8 +47995,10 @@
       "properties": {
         "ward_id": "4",
         "name": "Parkdale-High Park",
-        "decision_ids": [],
-        "role": "navigation_boundary_not_impact_area"
+        "role": "navigation_boundary_not_impact_area",
+        "decision_ids": [
+          "toronto-southport-opa964"
+        ]
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -51780,8 +51784,8 @@
       "properties": {
         "ward_id": "1",
         "name": "Etobicoke North",
-        "decision_ids": [],
-        "role": "navigation_boundary_not_impact_area"
+        "role": "navigation_boundary_not_impact_area",
+        "decision_ids": []
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -55659,8 +55663,8 @@
       "properties": {
         "ward_id": "3",
         "name": "Etobicoke-Lakeshore",
-        "decision_ids": [],
-        "role": "navigation_boundary_not_impact_area"
+        "role": "navigation_boundary_not_impact_area",
+        "decision_ids": []
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -69174,8 +69178,8 @@
       "properties": {
         "ward_id": "2",
         "name": "Etobicoke Centre",
-        "decision_ids": [],
-        "role": "navigation_boundary_not_impact_area"
+        "role": "navigation_boundary_not_impact_area",
+        "decision_ids": []
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -73493,8 +73497,8 @@
       "properties": {
         "ward_id": "8",
         "name": "Eglinton-Lawrence",
-        "decision_ids": [],
-        "role": "navigation_boundary_not_impact_area"
+        "role": "navigation_boundary_not_impact_area",
+        "decision_ids": []
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -75396,8 +75400,8 @@
       "properties": {
         "ward_id": "17",
         "name": "Don Valley North",
-        "decision_ids": [],
-        "role": "navigation_boundary_not_impact_area"
+        "role": "navigation_boundary_not_impact_area",
+        "decision_ids": []
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -76535,8 +76539,8 @@
       "properties": {
         "ward_id": "16",
         "name": "Don Valley East",
-        "decision_ids": [],
-        "role": "navigation_boundary_not_impact_area"
+        "role": "navigation_boundary_not_impact_area",
+        "decision_ids": []
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -78778,8 +78782,8 @@
       "properties": {
         "ward_id": "9",
         "name": "Davenport",
-        "decision_ids": [],
-        "role": "navigation_boundary_not_impact_area"
+        "role": "navigation_boundary_not_impact_area",
+        "decision_ids": []
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -80425,8 +80429,8 @@
       "properties": {
         "ward_id": "13",
         "name": "Toronto Centre",
-        "decision_ids": [],
-        "role": "navigation_boundary_not_impact_area"
+        "role": "navigation_boundary_not_impact_area",
+        "decision_ids": []
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -82188,8 +82192,8 @@
       "properties": {
         "ward_id": "5",
         "name": "York South-Weston",
-        "decision_ids": [],
-        "role": "navigation_boundary_not_impact_area"
+        "role": "navigation_boundary_not_impact_area",
+        "decision_ids": []
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -84515,8 +84519,8 @@
       "properties": {
         "ward_id": "14",
         "name": "Toronto-Danforth",
-        "decision_ids": [],
-        "role": "navigation_boundary_not_impact_area"
+        "role": "navigation_boundary_not_impact_area",
+        "decision_ids": []
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -98110,8 +98114,10 @@
       "properties": {
         "ward_id": "10",
         "name": "Spadina-Fort York",
-        "decision_ids": [],
-        "role": "navigation_boundary_not_impact_area"
+        "role": "navigation_boundary_not_impact_area",
+        "decision_ids": [
+          "toronto-notice-8022"
+        ]
       },
       "geometry": {
         "type": "MultiPolygon",

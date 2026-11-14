@@ -1,6 +1,11 @@
 import { describe, expect, it } from 'vitest'
 import { CAMERA_EASE_MS, MAP_VIEWPORT } from '../../data/mapLocation'
-import { ZOOM_EASE_MS, ZOOM_STEP, clampZoom } from './cameraNavigation'
+import {
+  SEARCH_FLY_MS,
+  ZOOM_EASE_MS,
+  ZOOM_STEP,
+  clampZoom,
+} from './cameraNavigation'
 
 describe('camera navigation config', () => {
   it('keeps the home pitch in the elevated 50–55° band', () => {
@@ -26,6 +31,8 @@ describe('camera navigation config', () => {
     expect(CAMERA_EASE_MS).toBeLessThanOrEqual(2000)
     expect(ZOOM_EASE_MS).toBeGreaterThanOrEqual(200)
     expect(ZOOM_EASE_MS).toBeLessThan(CAMERA_EASE_MS)
+    expect(SEARCH_FLY_MS).toBeGreaterThanOrEqual(CAMERA_EASE_MS)
+    expect(SEARCH_FLY_MS).toBeLessThanOrEqual(2500)
   })
 
   it('clamps zoom steps inside min/max', () => {

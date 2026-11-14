@@ -1,11 +1,14 @@
 import type { Map as MapLibreMap } from 'maplibre-gl'
 import { CAMERA_EASE_MS, MAP_VIEWPORT } from '../../data/mapLocation'
-import type { MapViewport } from '../../types/map'
+import type { FlyToLocationOptions, MapViewport } from '../../types/map'
 
 /** Shorter ease for stepwise zoom controls. */
 export const ZOOM_EASE_MS = 320
 
 export const ZOOM_STEP = 1
+
+/** Slightly longer than home ease so search navigation reads clearly. */
+export const SEARCH_FLY_MS = 1600
 
 /**
  * Apply centralized zoom/pitch limits and enable immersive navigation handlers.
@@ -65,6 +68,29 @@ export function easeZoomBy(map: MapLibreMap, delta: number): void {
   map.easeTo({
     zoom: next,
     duration: ZOOM_EASE_MS,
+    essential: true,
+  })
+}
+
+/**
+ * Fly the existing map to a geocoded location.
+ * Preserves elevated pitch/bearing unless overridden; does not create a new map.
+ */
+export function flyToLocation(
+  map: MapLibreMap,
+  options: FlyToLocationOptions,
+): void {
+  const zoom = clampZoom(
+    options.zoom ?? MAP_VIEWPORT.zoom,
+    map.getMinZoom(),
+    map.getMaxZoom(),
+  )
+  map.flyTo({
+    center: options.center,
+    zoom,
+    pitch: options.pitch ?? MAP_VIEWPORT.pitch,
+    bearing: options.bearing ?? MAP_VIEWPORT.bearing,
+    duration: options.durationMs ?? SEARCH_FLY_MS,
     essential: true,
   })
 }

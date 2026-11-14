@@ -35,7 +35,11 @@ export default function App() {
         onZoomChange={setZoom}
       />
       <div className={styles.ui}>
-        <TopNav locationLabel={locationLabel} />
+        <TopNav
+          locationLabel={locationLabel}
+          camera={camera}
+          onSearchResolved={setLocationLabel}
+        />
         <CameraControls camera={camera} zoom={zoom} />
         {selectedWard ? (
           <SelectedWardPanel

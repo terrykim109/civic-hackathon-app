@@ -379,6 +379,655 @@
         "participation_method": "register_to_speak_email_or_phone",
         "participation_url": "https://secure.toronto.ca/nm/api/individual/notice/8007.do"
       }
+    },
+    {
+      "type": "Feature",
+      "id": "toronto-southport-opa964",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -79.472586337,
+          43.638158431
+        ]
+      },
+      "properties": {
+        "municipality": "Toronto",
+        "published_date": "2026-10-20",
+        "decision_date": "2026-07-30",
+        "latitude": 43.638158431,
+        "longitude": -79.472586337,
+        "affected_area_geometry": null,
+        "location_precision": "approximate",
+        "location_role": "official_representative_point_not_impact_boundary",
+        "last_verified": "2026-11-13",
+        "verification_method": null,
+        "summary_review_status": null,
+        "ai_generation_mode": null,
+        "source_gis_status": null,
+        "ward_id": "4",
+        "agenda_item_id": "2026.TE34.50",
+        "decision_body": "Toronto City Council",
+        "decision_id": "toronto-southport-opa964",
+        "title": "34–50 Southport Street: Official Plan Amendment 964",
+        "gis_project_name": null,
+        "category": "planning",
+        "record_type": "council_decision",
+        "status": "adopted",
+        "source_modified_date": null,
+        "affected_area": "34–50 Southport Street",
+        "original_summary": null,
+        "plain_language_summary": "Council adopted a planning amendment allowing a 32-storey building with 397 homes as part of phase three.",
+        "potential_impact": [
+          {
+            "text": "The amendment permits additional housing on the site.",
+            "kind": "source_stated",
+            "evidence_id": "s1"
+          }
+        ],
+        "uncertainties": [
+          "Appeal filings, in-force status and construction progress were not verified."
+        ],
+        "participation_options": [
+          {
+            "method": "appeal",
+            "availability": "closed",
+            "deadline": "2026-11-09T16:30:00-05:00",
+            "deadline_precision": "minute",
+            "deadline_timezone": "America/Toronto",
+            "url": "https://secure.toronto.ca/nm/api/individual/notice/7982.do",
+            "evidence_id": "s3"
+          }
+        ],
+        "events": [
+          {
+            "type": "council_adoption",
+            "date": "2026-07-30",
+            "precision": "date",
+            "description": "Official Plan Amendment 964 adopted."
+          }
+        ],
+        "official_source_url": "https://secure.toronto.ca/nm/api/individual/notice/7982.do",
+        "geometry_source_url": "https://secure.toronto.ca/nm/api/individual/notice/7982.do",
+        "data_confidence": {
+          "facts": "high_official_records",
+          "location": "medium_representative_point",
+          "participation": "published_appeal_deadline_elapsed"
+        },
+        "evidence": [
+          {
+            "evidence_id": "s1",
+            "source_url": "https://secure.toronto.ca/nm/api/individual/notice/7982.do",
+            "locator": "Purpose and Effect; Affected Location(s)",
+            "supports": [
+              "geometry",
+              "decision_date",
+              "plain_language_summary"
+            ]
+          },
+          {
+            "evidence_id": "s2",
+            "source_url": "https://secure.toronto.ca/council/agenda-item.do?item=2026.TE34.50",
+            "locator": "City Council Decision; Background Information",
+            "supports": [
+              "status",
+              "agenda_item_id"
+            ]
+          },
+          {
+            "evidence_id": "s3",
+            "source_url": "https://secure.toronto.ca/nm/notices/current.do",
+            "locator": "Notice of Adoption of Official Plan Amendment 964 > Appeal",
+            "supports": [
+              "participation_options"
+            ]
+          }
+        ],
+        "geometry_source_record": "34 Southport Street",
+        "participation_status": "closed",
+        "can_participate_now": false,
+        "participation_deadline": "2026-11-09T16:30:00-05:00",
+        "participation_method": "appeal",
+        "participation_url": "https://secure.toronto.ca/nm/api/individual/notice/7982.do"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "toronto-notice-8023",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -79.186601655,
+          43.786743779
+        ]
+      },
+      "properties": {
+        "municipality": "Toronto",
+        "published_date": "2026-11-13",
+        "decision_date": null,
+        "latitude": 43.786743779,
+        "longitude": -79.186601655,
+        "affected_area_geometry": null,
+        "location_precision": "approximate",
+        "location_role": "official_representative_point_not_impact_boundary",
+        "last_verified": "2026-11-13",
+        "verification_method": null,
+        "summary_review_status": null,
+        "ai_generation_mode": null,
+        "source_gis_status": null,
+        "ward_id": "25",
+        "agenda_item_id": null,
+        "decision_body": null,
+        "decision_id": "toronto-notice-8023",
+        "title": "3307 and 3313 Ellesmere Road",
+        "gis_project_name": null,
+        "category": "planning",
+        "record_type": "public_notice",
+        "status": "holding_removal_proposed",
+        "source_modified_date": null,
+        "affected_area": "3307 and 3313 Ellesmere Road",
+        "original_summary": null,
+        "plain_language_summary": "Remove a zoning hold to allow an 11-storey mixed-use building with 166 homes and ground-floor commercial space.",
+        "potential_impact": [],
+        "uncertainties": [
+          "The notice does not specify a cutoff time or a final decision date."
+        ],
+        "participation_options": [
+          {
+            "method": "written_comments",
+            "availability": "open",
+            "deadline": "2026-11-27",
+            "deadline_precision": "date",
+            "deadline_timezone": "America/Toronto",
+            "url": "https://secure.toronto.ca/nm/api/individual/notice/8023.do",
+            "evidence_id": "notice",
+            "contact_email": "Philip.Liu@toronto.ca"
+          }
+        ],
+        "events": [],
+        "official_source_url": "https://secure.toronto.ca/nm/api/individual/notice/8023.do",
+        "geometry_source_url": "https://secure.toronto.ca/nm/api/individual/notice/8023.do",
+        "data_confidence": null,
+        "evidence": [
+          {
+            "evidence_id": "notice",
+            "source_url": "https://secure.toronto.ca/nm/api/individual/notice/8023.do",
+            "locator": "Description; Affected Location(s); Make Your Views Known where applicable",
+            "supports": [
+              "plain_language_summary",
+              "geometry",
+              "participation_options"
+            ]
+          }
+        ],
+        "geometry_source_record": "3307 Ellesmere Road",
+        "participation_status": "open",
+        "can_participate_now": true,
+        "participation_deadline": "2026-11-27",
+        "participation_method": "written_comments",
+        "participation_url": "https://secure.toronto.ca/nm/api/individual/notice/8023.do"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "toronto-notice-8022",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -79.408310316,
+          43.636011014
+        ]
+      },
+      "properties": {
+        "municipality": "Toronto",
+        "published_date": "2026-11-13",
+        "decision_date": null,
+        "latitude": 43.636011014,
+        "longitude": -79.408310316,
+        "affected_area_geometry": null,
+        "location_precision": "approximate",
+        "location_role": "official_representative_point_not_impact_boundary",
+        "last_verified": "2026-11-13",
+        "verification_method": null,
+        "summary_review_status": null,
+        "ai_generation_mode": null,
+        "source_gis_status": null,
+        "ward_id": "10",
+        "agenda_item_id": null,
+        "decision_body": null,
+        "decision_id": "toronto-notice-8022",
+        "title": "701 Fleet Street",
+        "gis_project_name": null,
+        "category": "planning",
+        "record_type": "public_notice",
+        "status": "holding_removal_proposed",
+        "source_modified_date": null,
+        "affected_area": "701 Fleet Street",
+        "original_summary": null,
+        "plain_language_summary": "Remove a zoning hold to allow a three-storey training facility for the Toronto Tempo basketball club.",
+        "potential_impact": [],
+        "uncertainties": [
+          "The notice does not specify a cutoff time or a final decision date."
+        ],
+        "participation_options": [
+          {
+            "method": "written_comments",
+            "availability": "open",
+            "deadline": "2026-11-27",
+            "deadline_precision": "date",
+            "deadline_timezone": "America/Toronto",
+            "url": "https://secure.toronto.ca/nm/api/individual/notice/8022.do",
+            "evidence_id": "notice",
+            "contact_email": "George.Pantazis@toronto.ca"
+          }
+        ],
+        "events": [],
+        "official_source_url": "https://secure.toronto.ca/nm/api/individual/notice/8022.do",
+        "geometry_source_url": "https://secure.toronto.ca/nm/api/individual/notice/8022.do",
+        "data_confidence": null,
+        "evidence": [
+          {
+            "evidence_id": "notice",
+            "source_url": "https://secure.toronto.ca/nm/api/individual/notice/8022.do",
+            "locator": "Description; Affected Location(s); Make Your Views Known where applicable",
+            "supports": [
+              "plain_language_summary",
+              "geometry",
+              "participation_options"
+            ]
+          }
+        ],
+        "geometry_source_record": "701 Fleet Street",
+        "participation_status": "open",
+        "can_participate_now": true,
+        "participation_deadline": "2026-11-27",
+        "participation_method": "written_comments",
+        "participation_url": "https://secure.toronto.ca/nm/api/individual/notice/8022.do"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "toronto-notice-8002",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -79.3565743378,
+          43.6596011182
+        ]
+      },
+      "properties": {
+        "municipality": "Toronto",
+        "published_date": "2026-11-06",
+        "decision_date": null,
+        "latitude": 43.6596011182,
+        "longitude": -79.3565743378,
+        "affected_area_geometry": null,
+        "location_precision": "approximate",
+        "location_role": "official_representative_point_not_impact_boundary",
+        "last_verified": "2026-11-13",
+        "verification_method": null,
+        "summary_review_status": null,
+        "ai_generation_mode": null,
+        "source_gis_status": null,
+        "ward_id": null,
+        "agenda_item_id": null,
+        "decision_body": null,
+        "decision_id": "toronto-notice-8002",
+        "title": "7 Labatt Avenue and 77 River Street",
+        "gis_project_name": null,
+        "category": "planning",
+        "record_type": "public_notice",
+        "status": "application_received",
+        "source_modified_date": null,
+        "affected_area": "7 Labatt Avenue and 77 River Street",
+        "original_summary": null,
+        "plain_language_summary": "Amend planning rules for two 46-storey residential buildings with 1,170 homes and a separate two-storey non-residential building.",
+        "potential_impact": [],
+        "uncertainties": [
+          "This application notice does not confirm a feedback window or final decision. Check the City portal for later updates."
+        ],
+        "participation_options": [
+          {
+            "method": "check_official_notice",
+            "availability": "unknown",
+            "deadline": null,
+            "deadline_precision": null,
+            "deadline_timezone": "America/Toronto",
+            "url": "https://secure.toronto.ca/nm/api/individual/notice/8002.do",
+            "evidence_id": "notice",
+            "contact_email": null
+          }
+        ],
+        "events": [],
+        "official_source_url": "https://secure.toronto.ca/nm/api/individual/notice/8002.do",
+        "geometry_source_url": "https://secure.toronto.ca/nm/api/individual/notice/8002.do",
+        "data_confidence": null,
+        "evidence": [
+          {
+            "evidence_id": "notice",
+            "source_url": "https://secure.toronto.ca/nm/api/individual/notice/8002.do",
+            "locator": "Description; Affected Location(s); Make Your Views Known where applicable",
+            "supports": [
+              "plain_language_summary",
+              "geometry",
+              "participation_options"
+            ]
+          }
+        ],
+        "geometry_source_record": "7 Labatt Avenue",
+        "participation_status": "unknown",
+        "can_participate_now": null,
+        "participation_deadline": null,
+        "participation_method": "check_official_notice",
+        "participation_url": "https://secure.toronto.ca/nm/api/individual/notice/8002.do"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "toronto-notice-8003",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -79.403487669,
+          43.643532697
+        ]
+      },
+      "properties": {
+        "municipality": "Toronto",
+        "published_date": "2026-11-06",
+        "decision_date": null,
+        "latitude": 43.643532697,
+        "longitude": -79.403487669,
+        "affected_area_geometry": null,
+        "location_precision": "approximate",
+        "location_role": "official_representative_point_not_impact_boundary",
+        "last_verified": "2026-11-13",
+        "verification_method": null,
+        "summary_review_status": null,
+        "ai_generation_mode": null,
+        "source_gis_status": null,
+        "ward_id": null,
+        "agenda_item_id": null,
+        "decision_body": null,
+        "decision_id": "toronto-notice-8003",
+        "title": "689 King Street West",
+        "gis_project_name": null,
+        "category": "planning",
+        "record_type": "public_notice",
+        "status": "application_received",
+        "source_modified_date": null,
+        "affected_area": "689 King Street West",
+        "original_summary": null,
+        "plain_language_summary": "Amend planning rules for a 30-storey mixed-use building with a hotel and 160 homes.",
+        "potential_impact": [],
+        "uncertainties": [
+          "This application notice does not confirm a feedback window or final decision. Check the City portal for later updates."
+        ],
+        "participation_options": [
+          {
+            "method": "check_official_notice",
+            "availability": "unknown",
+            "deadline": null,
+            "deadline_precision": null,
+            "deadline_timezone": "America/Toronto",
+            "url": "https://secure.toronto.ca/nm/api/individual/notice/8003.do",
+            "evidence_id": "notice",
+            "contact_email": null
+          }
+        ],
+        "events": [],
+        "official_source_url": "https://secure.toronto.ca/nm/api/individual/notice/8003.do",
+        "geometry_source_url": "https://secure.toronto.ca/nm/api/individual/notice/8003.do",
+        "data_confidence": null,
+        "evidence": [
+          {
+            "evidence_id": "notice",
+            "source_url": "https://secure.toronto.ca/nm/api/individual/notice/8003.do",
+            "locator": "Description; Affected Location(s); Make Your Views Known where applicable",
+            "supports": [
+              "plain_language_summary",
+              "geometry",
+              "participation_options"
+            ]
+          }
+        ],
+        "geometry_source_record": "689 King Street West",
+        "participation_status": "unknown",
+        "can_participate_now": null,
+        "participation_deadline": null,
+        "participation_method": "check_official_notice",
+        "participation_url": "https://secure.toronto.ca/nm/api/individual/notice/8003.do"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "toronto-notice-8004",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -79.402494753,
+          43.656760386
+        ]
+      },
+      "properties": {
+        "municipality": "Toronto",
+        "published_date": "2026-11-06",
+        "decision_date": null,
+        "latitude": 43.656760386,
+        "longitude": -79.402494753,
+        "affected_area_geometry": null,
+        "location_precision": "approximate",
+        "location_role": "official_representative_point_not_impact_boundary",
+        "last_verified": "2026-11-13",
+        "verification_method": null,
+        "summary_review_status": null,
+        "ai_generation_mode": null,
+        "source_gis_status": null,
+        "ward_id": null,
+        "agenda_item_id": null,
+        "decision_body": null,
+        "decision_id": "toronto-notice-8004",
+        "title": "309 and 311 Augusta Avenue",
+        "gis_project_name": null,
+        "category": "planning",
+        "record_type": "public_notice",
+        "status": "application_received",
+        "source_modified_date": null,
+        "affected_area": "309 and 311 Augusta Avenue",
+        "original_summary": null,
+        "plain_language_summary": "Amend zoning to allow a six-storey hotel with a restaurant.",
+        "potential_impact": [],
+        "uncertainties": [
+          "This application notice does not confirm a feedback window or final decision. Check the City portal for later updates."
+        ],
+        "participation_options": [
+          {
+            "method": "check_official_notice",
+            "availability": "unknown",
+            "deadline": null,
+            "deadline_precision": null,
+            "deadline_timezone": "America/Toronto",
+            "url": "https://secure.toronto.ca/nm/api/individual/notice/8004.do",
+            "evidence_id": "notice",
+            "contact_email": null
+          }
+        ],
+        "events": [],
+        "official_source_url": "https://secure.toronto.ca/nm/api/individual/notice/8004.do",
+        "geometry_source_url": "https://secure.toronto.ca/nm/api/individual/notice/8004.do",
+        "data_confidence": null,
+        "evidence": [
+          {
+            "evidence_id": "notice",
+            "source_url": "https://secure.toronto.ca/nm/api/individual/notice/8004.do",
+            "locator": "Description; Affected Location(s); Make Your Views Known where applicable",
+            "supports": [
+              "plain_language_summary",
+              "geometry",
+              "participation_options"
+            ]
+          }
+        ],
+        "geometry_source_record": "309 Augusta Avenue",
+        "participation_status": "unknown",
+        "can_participate_now": null,
+        "participation_deadline": null,
+        "participation_method": "check_official_notice",
+        "participation_url": "https://secure.toronto.ca/nm/api/individual/notice/8004.do"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "toronto-notice-8005",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -79.390316063,
+          43.778412778
+        ]
+      },
+      "properties": {
+        "municipality": "Toronto",
+        "published_date": "2026-11-06",
+        "decision_date": null,
+        "latitude": 43.778412778,
+        "longitude": -79.390316063,
+        "affected_area_geometry": null,
+        "location_precision": "approximate",
+        "location_role": "official_representative_point_not_impact_boundary",
+        "last_verified": "2026-11-13",
+        "verification_method": null,
+        "summary_review_status": null,
+        "ai_generation_mode": null,
+        "source_gis_status": null,
+        "ward_id": null,
+        "agenda_item_id": null,
+        "decision_body": null,
+        "decision_id": "toronto-notice-8005",
+        "title": "3057–3067 Bayview Avenue and 1 Burleigh Heights Drive",
+        "gis_project_name": null,
+        "category": "planning",
+        "record_type": "public_notice",
+        "status": "application_received",
+        "source_modified_date": null,
+        "affected_area": "3057–3067 Bayview Avenue and 1 Burleigh Heights Drive",
+        "original_summary": null,
+        "plain_language_summary": "Amend zoning to allow a six-storey residential building with 155 homes.",
+        "potential_impact": [],
+        "uncertainties": [
+          "This application notice does not confirm a feedback window or final decision. Check the City portal for later updates."
+        ],
+        "participation_options": [
+          {
+            "method": "check_official_notice",
+            "availability": "unknown",
+            "deadline": null,
+            "deadline_precision": null,
+            "deadline_timezone": "America/Toronto",
+            "url": "https://secure.toronto.ca/nm/api/individual/notice/8005.do",
+            "evidence_id": "notice",
+            "contact_email": null
+          }
+        ],
+        "events": [],
+        "official_source_url": "https://secure.toronto.ca/nm/api/individual/notice/8005.do",
+        "geometry_source_url": "https://secure.toronto.ca/nm/api/individual/notice/8005.do",
+        "data_confidence": null,
+        "evidence": [
+          {
+            "evidence_id": "notice",
+            "source_url": "https://secure.toronto.ca/nm/api/individual/notice/8005.do",
+            "locator": "Description; Affected Location(s); Make Your Views Known where applicable",
+            "supports": [
+              "plain_language_summary",
+              "geometry",
+              "participation_options"
+            ]
+          }
+        ],
+        "geometry_source_record": "3057 Bayview Avenue",
+        "participation_status": "unknown",
+        "can_participate_now": null,
+        "participation_deadline": null,
+        "participation_method": "check_official_notice",
+        "participation_url": "https://secure.toronto.ca/nm/api/individual/notice/8005.do"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "toronto-notice-8006",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -79.406014636,
+          43.744498916
+        ]
+      },
+      "properties": {
+        "municipality": "Toronto",
+        "published_date": "2026-11-06",
+        "decision_date": null,
+        "latitude": 43.744498916,
+        "longitude": -79.406014636,
+        "affected_area_geometry": null,
+        "location_precision": "approximate",
+        "location_role": "official_representative_point_not_impact_boundary",
+        "last_verified": "2026-11-13",
+        "verification_method": null,
+        "summary_review_status": null,
+        "ai_generation_mode": null,
+        "source_gis_status": null,
+        "ward_id": null,
+        "agenda_item_id": null,
+        "decision_body": null,
+        "decision_id": "toronto-notice-8006",
+        "title": "10, 20 and 36 York Mills Road",
+        "gis_project_name": null,
+        "category": "planning",
+        "record_type": "public_notice",
+        "status": "application_received",
+        "source_modified_date": null,
+        "affected_area": "10, 20 and 36 York Mills Road",
+        "original_summary": null,
+        "plain_language_summary": "Amend planning rules for two mixed-use towers at 55 and 40 storeys.",
+        "potential_impact": [],
+        "uncertainties": [
+          "This application notice does not confirm a feedback window or final decision. Check the City portal for later updates."
+        ],
+        "participation_options": [
+          {
+            "method": "check_official_notice",
+            "availability": "unknown",
+            "deadline": null,
+            "deadline_precision": null,
+            "deadline_timezone": "America/Toronto",
+            "url": "https://secure.toronto.ca/nm/api/individual/notice/8006.do",
+            "evidence_id": "notice",
+            "contact_email": null
+          }
+        ],
+        "events": [],
+        "official_source_url": "https://secure.toronto.ca/nm/api/individual/notice/8006.do",
+        "geometry_source_url": "https://secure.toronto.ca/nm/api/individual/notice/8006.do",
+        "data_confidence": null,
+        "evidence": [
+          {
+            "evidence_id": "notice",
+            "source_url": "https://secure.toronto.ca/nm/api/individual/notice/8006.do",
+            "locator": "Description; Affected Location(s); Make Your Views Known where applicable",
+            "supports": [
+              "plain_language_summary",
+              "geometry",
+              "participation_options"
+            ]
+          }
+        ],
+        "geometry_source_record": "10 York Mills Road",
+        "participation_status": "unknown",
+        "can_participate_now": null,
+        "participation_deadline": null,
+        "participation_method": "check_official_notice",
+        "participation_url": "https://secure.toronto.ca/nm/api/individual/notice/8006.do"
+      }
     }
   ]
 }
