@@ -127,19 +127,21 @@ Extrusions remain geographically aligned during pitch/bearing changes because th
 | Concern | Location |
 | --- | --- |
 | SQL migration + RLS | `supabase/migrations/20261114000000_backend_foundation.sql` |
+| Resident feedback RPC | `supabase/migrations/20261114010000_resident_feedback_submission.sql` |
 | Browser client (anon key) | `src/lib/supabase/client.ts` |
 | Row ↔ MunicipalRecord mapping | `src/lib/supabase/municipalRecordMapper.ts` |
 | Feedback form gating rule | `src/lib/feedback/feedbackAvailability.ts` |
+| Resident feedback form | `src/components/records/ResidentFeedbackForm.tsx` |
+| Admin feedback inbox | `src/pages/AdminFeedbackPage.tsx` |
 | Operator docs | `docs/SUPABASE.md` |
 
-Admin privileges live in `admin_users` and are checked via `is_admin()`. Clients cannot self-assign admin. Feedback rows are admin-only; public feedback INSERT is deferred.
+Admin privileges live in `admin_users` and are checked via `is_admin()`. Clients cannot self-assign admin. Feedback rows stay private; public intake uses `submit_resident_feedback` (SECURITY DEFINER) rather than direct table inserts. Administrators manage submissions at `/admin/feedback` under the same RLS policies.
 
-Routing uses `react-router-dom`. Public map is `/`. Admin login is `/admin/login`. `/admin` lists proposals; `/admin/proposals/new` and `/admin/proposals/:id` edit them. All `/admin/*` management routes are wrapped by `AdminRoute` (session + `is_admin()`). Writes go through `municipal_records` and remain subject to RLS.
+Routing uses `react-router-dom`. Public map is `/`. Admin login is `/admin/login`. `/admin` lists proposals; `/admin/feedback` is the inbox; `/admin/proposals/new` and `/admin/proposals/:id` edit proposals. All `/admin/*` management routes are wrapped by `AdminRoute` (session + `is_admin()`). Writes go through `municipal_records` / `feedback_submissions` and remain subject to RLS.
 
 ## Current limitations
 
-- Public map still uses static GeoJSON; Supabase published reads are not wired into MapLibre yet.
-- Admin login and proposal draft/publish UI exist; the public map merges static GeoJSON with published Supabase proposals. Resident feedback form/inbox are not built yet.
+- Admin login, proposal draft/publish, published map sync, resident feedback submission, and the administrator feedback inbox exist. Live production smoke tests and Docker-backed RLS scripts are manual (see `docs/DEPLOYMENT.md`).
 - Building heights exist only where OpenMapTiles provides `render_height`. Many footprints may be low or zero.
 - Tile availability depends on the public OpenFreeMap service.
 - Live Postgres RLS scripts require local Supabase and are not part of default `npm test`.

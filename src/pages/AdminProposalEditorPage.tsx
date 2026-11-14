@@ -90,6 +90,7 @@ export function AdminProposalEditorPage() {
       record,
       nextStatus,
       user?.id ?? null,
+      { createOnly: isNew },
     )
     setSaving(false)
 
@@ -138,9 +139,19 @@ export function AdminProposalEditorPage() {
                 stay separate from draft/publish.
               </p>
             </div>
-            <Link className={styles.secondary} to="/admin">
-              Back to list
-            </Link>
+            <div className={styles.actions}>
+              {!isNew && proposalId ? (
+                <Link
+                  className={styles.secondary}
+                  to={`/admin/feedback?proposal=${encodeURIComponent(proposalId)}`}
+                >
+                  View feedback
+                </Link>
+              ) : null}
+              <Link className={styles.secondary} to="/admin">
+                Back to list
+              </Link>
+            </div>
           </div>
 
           {error ? (

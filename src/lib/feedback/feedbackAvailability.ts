@@ -13,7 +13,7 @@ export type FeedbackAvailabilityReason =
   | 'deadline_passed'
 
 export interface FeedbackAvailabilityResult {
-  /** Whether the future CivicLens resident feedback form may be shown. */
+  /** Whether the CivicLens resident feedback form may be shown. */
   available: boolean
   reason: FeedbackAvailabilityReason
   /** Clarifies that CivicLens collects submissions; not a municipal portal claim. */
@@ -167,7 +167,7 @@ export function evaluateFeedbackAvailability(
   }
 }
 
-/** Convenience boolean for UI gating in a later increment. */
+/** Convenience boolean for UI gating. */
 export function isFeedbackFormAvailable(
   record: FeedbackAvailabilityInput,
   now: Date = new Date(),

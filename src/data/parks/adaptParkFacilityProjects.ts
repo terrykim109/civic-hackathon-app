@@ -346,6 +346,13 @@ export function getParkProjectsForWard(
   return projects.filter((project) => project.wardId === normalized)
 }
 
+export function isParkFacilityProject(record: MunicipalRecord): boolean {
+  return (
+    record.recordType === 'park_facility_project' ||
+    record.id.startsWith('park-project-')
+  )
+}
+
 /** Point FeatureCollection for MapLibre circle layers. */
 export function parkProjectsToFeatureCollection(
   records: readonly MunicipalRecord[],
@@ -367,6 +374,25 @@ export function parkProjectsToFeatureCollection(
       },
     })),
   }
+}
+
+/**
+ * Map markers for park Open Data projects are contextual only:
+ * include the selected park project, otherwise an empty collection.
+ * Full project lists remain available for ward panels — they are not drawn.
+ */
+export function contextualParkProjectCollection(
+  projects: readonly MunicipalRecord[],
+  selectedRecordId: string | null,
+): GeoJsonFeatureCollection {
+  if (!selectedRecordId) {
+    return { type: 'FeatureCollection', features: [] }
+  }
+  const selected = projects.find((project) => project.id === selectedRecordId)
+  if (!selected || !isParkFacilityProject(selected)) {
+    return { type: 'FeatureCollection', features: [] }
+  }
+  return parkProjectsToFeatureCollection([selected])
 }
 
 export async function loadParkFacilityProjectRecords(

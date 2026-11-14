@@ -1,7 +1,11 @@
 .page {
-  min-height: 100%;
+  /* body/#root are overflow:hidden for the map; this page must scroll itself. */
+  box-sizing: border-box;
+  height: 100%;
+  max-height: 100%;
   padding: 2rem 1.25rem 3rem;
   overflow: auto;
+  -webkit-overflow-scrolling: touch;
   background:
     radial-gradient(1200px 600px at 10% -10%, rgba(31, 74, 63, 0.12), transparent),
     linear-gradient(180deg, #f7f3ec 0%, #efe8dc 100%);

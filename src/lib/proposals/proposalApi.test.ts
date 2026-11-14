@@ -174,4 +174,19 @@ describe('saveProposal', () => {
     expect(result.ok).toBe(false)
     if (!result.ok) expect(result.error).toMatch(/row-level security/i)
   })
+
+  it('rejects createOnly saves when the record id already exists', async () => {
+    const client = mockClient({
+      maybeSingleExisting: { id: 'test-proposal-1', created_by: 'other' },
+    })
+    const result = await saveProposal(
+      client,
+      sampleRecord(),
+      'draft',
+      'user-1',
+      { createOnly: true },
+    )
+    expect(result.ok).toBe(false)
+    if (!result.ok) expect(result.error).toMatch(/already exists/i)
+  })
 })

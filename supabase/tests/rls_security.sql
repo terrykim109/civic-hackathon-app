@@ -123,4 +123,72 @@ rollback;
 -- ... assert draft visible, feedback visible, update to published works
 -- rollback;
 
+-- 4a) Anonymous may submit via RPC when published + open; must not read rows back
+begin;
+set local role anon;
+set local request.jwt.claim.role = 'anon';
+
+do $$
+declare
+  ok_result jsonb;
+  draft_result jsonb;
+  feedback_count int;
+begin
+  ok_result := public.submit_resident_feedback(
+    'test-published-1',
+    'Anon resident comment via RPC',
+    'parks',
+    null,
+    null,
+    'rls-test-client',
+    null
+  );
+  if coalesce((ok_result->>'ok')::boolean, false) is not true then
+    raise exception 'anon RPC submit should succeed for published open record: %', ok_result;
+  end if;
+
+  draft_result := public.submit_resident_feedback(
+    'test-draft-1',
+    'Should fail against draft',
+    null, null, null, 'rls-test-client-2', null
+  );
+  if coalesce((draft_result->>'ok')::boolean, true) is not false then
+    raise exception 'anon RPC must reject draft records';
+  end if;
+
+  select count(*) into feedback_count from public.feedback_submissions;
+  if feedback_count <> 0 then
+    raise exception 'anon must still be unable to SELECT feedback_submissions';
+  end if;
+end $$;
+rollback;
+
+-- 4b) Close participation as service role, then confirm anon RPC rejects
+begin;
+update public.municipal_records
+set participation_availability = 'closed', can_participate_now = false
+where id = 'test-published-1';
+
+set local role anon;
+set local request.jwt.claim.role = 'anon';
+
+do $$
+declare
+  closed_result jsonb;
+begin
+  closed_result := public.submit_resident_feedback(
+    'test-published-1',
+    'Should fail when closed',
+    null, null, null, 'rls-test-client-3', null
+  );
+  if coalesce((closed_result->>'ok')::boolean, true) is not false then
+    raise exception 'anon RPC must reject closed participation windows';
+  end if;
+end $$;
+rollback;
+
+-- 5) Optional: after applying 20261114020000_feedback_rate_limit_hardening.sql,
+--    verify that rotating p_client_key cannot exceed the per-record hourly cap.
+--    (Requires a published open record and repeated RPC calls in a loop.)
+
 select 'rls_security.sql seed + anon checks completed (admin/user blocks require UUID placeholders)' as status;

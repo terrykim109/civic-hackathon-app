@@ -87,6 +87,9 @@ export function AdminHomePage() {
               <Link className={styles.primary} to="/admin/proposals/new">
                 New proposal
               </Link>
+              <Link className={styles.secondary} to="/admin/feedback">
+                Feedback inbox
+              </Link>
               <Link className={styles.secondary} to="/">
                 Public map
               </Link>

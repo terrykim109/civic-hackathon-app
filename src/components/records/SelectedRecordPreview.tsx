@@ -1,18 +1,39 @@
 import { ExternalLink, X } from 'lucide-react'
+import { useEffect, useRef } from 'react'
 import type { MunicipalRecord } from '../../types/municipalRecord'
+import { ResidentFeedbackForm } from './ResidentFeedbackForm'
 import { buildRecordPreviewSections } from './recordPreview'
 import styles from './SelectedRecordPreview.module.css'
 
 interface SelectedRecordPreviewProps {
   record: MunicipalRecord
   onClose: () => void
+  /** Whether feedback can be persisted (published Supabase row exists). */
+  canPersistFeedback?: boolean
 }
 
 export function SelectedRecordPreview({
   record,
   onClose,
+  canPersistFeedback = false,
 }: SelectedRecordPreviewProps) {
   const preview = buildRecordPreviewSections(record)
+  const closeRef = useRef<HTMLButtonElement>(null)
+
+  useEffect(() => {
+    closeRef.current?.focus()
+  }, [])
+
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        event.preventDefault()
+        onClose()
+      }
+    }
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [onClose])
 
   return (
     <aside
@@ -34,6 +55,7 @@ export function SelectedRecordPreview({
           </h2>
         </div>
         <button
+          ref={closeRef}
           type="button"
           className={styles.close}
           aria-label="Close record preview"
@@ -167,6 +189,11 @@ export function SelectedRecordPreview({
             Source: City of Toronto Open Data extract (not a live feed).
           </p>
         ) : null}
+
+        <ResidentFeedbackForm
+          record={record}
+          canPersistFeedback={canPersistFeedback}
+        />
       </div>
     </aside>
   )

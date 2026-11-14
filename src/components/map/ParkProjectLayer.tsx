@@ -1,18 +1,15 @@
 import { useEffect, useRef } from 'react'
 import type { Map as MapLibreMap, MapLayerMouseEvent } from 'maplibre-gl'
 import {
+  contextualParkProjectCollection,
   loadParkFacilityProjectRecords,
-  parkProjectsToFeatureCollection,
-  type GeoJsonFeatureCollection,
 } from '../../data/parks/adaptParkFacilityProjects'
 import { PARK_FACILITY_PROJECTS_GEOJSON_URL } from '../../data/parks/parkProjectsAsset'
 import type { MunicipalRecord } from '../../types/municipalRecord'
 import {
   ensureParkProjectLayers,
   PARK_PROJECTS_CIRCLE_LAYER_ID,
-  PARK_PROJECTS_SELECTED_LAYER_ID,
   setParkProjectData,
-  setParkProjectSelectionFilter,
 } from './parkProjectLayers'
 
 interface ParkProjectLayerProps {
@@ -24,8 +21,8 @@ interface ParkProjectLayerProps {
 }
 
 /**
- * Loads Open Data park facility projects, skips globalids already in municipal
- * records, and renders them as MapLibre circle markers (not a second HTML marker set).
+ * Loads Open Data park facility projects for ward lists, but only draws a
+ * map marker for the currently selected park project (contextual, not global).
  */
 export function ParkProjectLayer({
   map,
@@ -35,10 +32,15 @@ export function ParkProjectLayer({
   onRecordSelect,
 }: ParkProjectLayerProps) {
   const projectsRef = useRef<MunicipalRecord[]>([])
-  const collectionRef = useRef<GeoJsonFeatureCollection | null>(null)
+  const municipalRecordsRef = useRef(municipalRecords)
   const onProjectsLoadedRef = useRef(onProjectsLoaded)
   const onRecordSelectRef = useRef(onRecordSelect)
   const selectedIdRef = useRef(selectedRecordId)
+  const drawnIdRef = useRef<string | null>(null)
+
+  useEffect(() => {
+    municipalRecordsRef.current = municipalRecords
+  }, [municipalRecords])
 
   useEffect(() => {
     onProjectsLoadedRef.current = onProjectsLoaded
@@ -51,6 +53,21 @@ export function ParkProjectLayer({
   useEffect(() => {
     selectedIdRef.current = selectedRecordId
   }, [selectedRecordId])
+
+  const syncContextualMarker = (mapInstance: MapLibreMap) => {
+    const nextId = selectedIdRef.current
+    // Avoid clear/setData churn that flashes the marker during camera moves
+    // or parent re-renders with a new municipalRecords array identity.
+    if (drawnIdRef.current === nextId) return
+
+    const collection = contextualParkProjectCollection(
+      projectsRef.current,
+      nextId,
+    )
+    ensureParkProjectLayers(mapInstance)
+    setParkProjectData(mapInstance, collection)
+    drawnIdRef.current = nextId
+  }
 
   useEffect(() => {
     if (!map) return
@@ -78,23 +95,20 @@ export function ParkProjectLayer({
 
     const bindLayerEvents = () => {
       map.on('click', PARK_PROJECTS_CIRCLE_LAYER_ID, onClick)
-      map.on('click', PARK_PROJECTS_SELECTED_LAYER_ID, onClick)
       map.on('mouseenter', PARK_PROJECTS_CIRCLE_LAYER_ID, onEnter)
       map.on('mouseleave', PARK_PROJECTS_CIRCLE_LAYER_ID, onLeave)
     }
 
     const unbindLayerEvents = () => {
       map.off('click', PARK_PROJECTS_CIRCLE_LAYER_ID, onClick)
-      map.off('click', PARK_PROJECTS_SELECTED_LAYER_ID, onClick)
       map.off('mouseenter', PARK_PROJECTS_CIRCLE_LAYER_ID, onEnter)
       map.off('mouseleave', PARK_PROJECTS_CIRCLE_LAYER_ID, onLeave)
     }
 
     const applyToMap = () => {
-      if (cancelled || !collectionRef.current) return
-      ensureParkProjectLayers(map)
-      setParkProjectData(map, collectionRef.current)
-      setParkProjectSelectionFilter(map, selectedIdRef.current)
+      if (cancelled) return
+      drawnIdRef.current = null
+      syncContextualMarker(map)
       unbindLayerEvents()
       bindLayerEvents()
     }
@@ -103,16 +117,19 @@ export function ParkProjectLayer({
       try {
         const { records } = await loadParkFacilityProjectRecords(
           PARK_FACILITY_PROJECTS_GEOJSON_URL,
-          municipalRecords,
+          municipalRecordsRef.current,
         )
         if (cancelled) return
         projectsRef.current = records
-        collectionRef.current = parkProjectsToFeatureCollection(records)
         loaded = true
         if (map.isStyleLoaded()) applyToMap()
         onProjectsLoadedRef.current(records)
       } catch {
-        if (!cancelled) onProjectsLoadedRef.current([])
+        if (!cancelled) {
+          projectsRef.current = []
+          onProjectsLoadedRef.current([])
+          if (map.isStyleLoaded()) applyToMap()
+        }
       }
     }
 
@@ -129,20 +146,21 @@ export function ParkProjectLayer({
       unbindLayerEvents()
       if (map.getStyle()) {
         map.getCanvas().style.cursor = ''
+        setParkProjectData(map, { type: 'FeatureCollection', features: [] })
+        drawnIdRef.current = null
       }
     }
-  }, [map, municipalRecords])
+    // Load once per map instance. municipalRecords is read via ref so identity
+    // churn from mergeStaticAndPublishedRecords does not clear the marker.
+  }, [map])
 
   useEffect(() => {
     if (!map) return
-    setParkProjectSelectionFilter(map, selectedRecordId)
+    syncContextualMarker(map)
   }, [map, selectedRecordId])
 
   return null
 }
 
 /** Layers that should block background deselect when clicked. */
-export const PARK_PROJECT_HIT_LAYER_IDS = [
-  PARK_PROJECTS_CIRCLE_LAYER_ID,
-  PARK_PROJECTS_SELECTED_LAYER_ID,
-] as const
+export const PARK_PROJECT_HIT_LAYER_IDS = [PARK_PROJECTS_CIRCLE_LAYER_ID] as const

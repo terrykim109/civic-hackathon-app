@@ -2,14 +2,13 @@
 
 CivicSync uses **Supabase PostgreSQL + Auth + RLS** for persistent municipal records and private resident feedback. There is no Express server.
 
-The public map still reads static GeoJSON in this increment. Wiring published rows into MapLibre is a later step.
-
 ## Tables
 
 | Table | Purpose |
 | --- | --- |
 | `municipal_records` | Municipal proposals/notices. `publication_status` is CivicLens visibility (`draft` / `published` / `archived`). Nested MunicipalRecord fields live in JSONB (`record` is canonical). |
-| `feedback_submissions` | Resident comments linked to a municipal record. Admin-only. |
+| `feedback_submissions` | Resident comments linked to a municipal record. Direct table access is admin-only. |
+| `feedback_rate_buckets` | Private spam-throttle counters for the submit RPC. No client access. |
 | `admin_users` | Allow-list of Auth user IDs with administrator privileges. |
 
 Relationships: `feedback_submissions.municipal_record_id → municipal_records.id`. `admin_users.user_id → auth.users.id`.
@@ -97,3 +96,41 @@ New proposals default to `publication_status = draft`. Publishing writes `publis
 | Status banner | `src/components/map/MapRecordsStatus.tsx` |
 
 The public map merges bundled `MUNICIPAL_RECORDS` with published Supabase rows. Static ids win on collision. Draft/archived rows are filtered client-side and blocked by RLS. If Supabase is unset or the request fails, the static map remains available and failures are surfaced (not treated as an empty success).
+
+## Resident feedback submission (Commit 5)
+
+| Concern | Location |
+| --- | --- |
+| UI gating from participation fields | `src/lib/feedback/feedbackAvailability.ts` |
+| Form in selected-record panel | `src/components/records/ResidentFeedbackForm.tsx` |
+| Client validation + RPC wrapper | `src/lib/feedback/validateFeedbackSubmission.ts`, `submitResidentFeedback.ts` |
+| Server validation / insert | `public.submit_resident_feedback` in `supabase/migrations/20261114010000_resident_feedback_submission.sql` |
+
+Public clients never insert into `feedback_submissions` directly. Submissions go through the SECURITY DEFINER RPC, which:
+
+1. Validates comment / optional fields server-side (length + email format).
+2. Requires a **published** municipal record that currently accepts feedback (same participation rules as the UI).
+3. Applies a honeypot + per-client/record rate limit (5 / hour).
+4. Stores `review_status = 'new'` with `created_at` timestamps.
+
+RLS still denies anon SELECT/UPDATE/DELETE on `feedback_submissions`. Authenticated non-admins are blocked by `is_admin()` policies. Public intake remains the SECURITY DEFINER RPC only.
+
+## Administrator feedback management (Commit 6)
+
+| Concern | Location |
+| --- | --- |
+| Inbox UI | `/admin/feedback` → `src/pages/AdminFeedbackPage.tsx` |
+| List / status update API | `src/lib/feedback/feedbackAdminApi.ts` |
+| CSV export | `src/lib/feedback/exportFeedbackCsv.ts` |
+
+Administrators load and update `feedback_submissions` through the authenticated Supabase client. Access depends on existing RLS (`feedback_submissions_admin_select` / `_update` + `is_admin()`), not a second auth system. The inbox can filter by proposal id and review status, open the linked proposal editor, and export the filtered rows as CSV (with formula-injection escaping). Contact fields stay private to the admin UI.
+
+## Rate limiting
+
+`submit_resident_feedback` applies:
+
+1. **Per-record** cap (40 / hour) — not bypassable by rotating `p_client_key`.
+2. **Per-client/record** soft throttle (5 / hour) — best-effort against casual repeats.
+3. Honeypot field rejection.
+
+See `supabase/migrations/20261114020000_feedback_rate_limit_hardening.sql`. Deployment steps: [`docs/DEPLOYMENT.md`](./DEPLOYMENT.md).

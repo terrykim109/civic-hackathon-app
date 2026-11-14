@@ -209,7 +209,12 @@
     bottom: 0.75rem;
     left: 0.75rem;
     width: auto;
-    max-height: min(52dvh, 26rem);
+    max-height: min(70dvh, 34rem);
     border-radius: 20px 20px 18px 18px;
+  }
+
+  .body {
+    padding-bottom: 1.35rem;
+    -webkit-overflow-scrolling: touch;
   }
 }

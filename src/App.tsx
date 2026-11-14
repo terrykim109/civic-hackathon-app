@@ -1,6 +1,7 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { AuthProvider } from './auth/AuthProvider'
 import { AdminRoute } from './components/auth/AdminRoute'
+import { AdminFeedbackPage } from './pages/AdminFeedbackPage'
 import { AdminHomePage } from './pages/AdminHomePage'
 import { AdminLoginPage } from './pages/AdminLoginPage'
 import { AdminProposalEditorPage } from './pages/AdminProposalEditorPage'
@@ -18,6 +19,14 @@ export default function App() {
             element={
               <AdminRoute>
                 <AdminHomePage />
+              </AdminRoute>
+            }
+          />
+          <Route
+            path="/admin/feedback"
+            element={
+              <AdminRoute>
+                <AdminFeedbackPage />
               </AdminRoute>
             }
           />

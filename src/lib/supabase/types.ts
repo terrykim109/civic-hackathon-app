@@ -108,10 +108,45 @@ export interface Database {
         Update: Partial<AdminUserRow>
         Relationships: []
       }
+      feedback_rate_buckets: {
+        Row: {
+          bucket_key: string
+          window_started_at: string
+          submission_count: number
+        }
+        Insert: {
+          bucket_key: string
+          window_started_at?: string
+          submission_count?: number
+        }
+        Update: Partial<{
+          bucket_key: string
+          window_started_at: string
+          submission_count: number
+        }>
+        Relationships: []
+      }
     }
     Views: Record<string, never>
     Functions: {
       is_admin: { Args: Record<string, never>; Returns: boolean }
+      submit_resident_feedback: {
+        Args: {
+          p_municipal_record_id: string
+          p_comment: string
+          p_perspective?: string | null
+          p_contact_name?: string | null
+          p_contact_email?: string | null
+          p_client_key?: string | null
+          p_honeypot?: string | null
+        }
+        Returns: {
+          ok: boolean
+          id?: string
+          error?: string
+          reviewStatus?: FeedbackReviewStatus
+        }
+      }
     }
     Enums: {
       publication_status: PublicationStatus

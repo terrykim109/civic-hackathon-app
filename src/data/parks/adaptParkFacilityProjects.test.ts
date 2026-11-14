@@ -3,7 +3,9 @@ import type { MunicipalRecord } from '../../types/municipalRecord'
 import {
   adaptParkFacilityProjects,
   collectIntegratedParkGlobalIds,
+  contextualParkProjectCollection,
   getParkProjectsForWard,
+  isParkFacilityProject,
   normalizeWardNumber,
   parkProjectsToFeatureCollection,
 } from './adaptParkFacilityProjects'
@@ -145,5 +147,24 @@ describe('getParkProjectsForWard', () => {
     expect(getParkProjectsForWard('3', records)).toHaveLength(1)
     expect(getParkProjectsForWard('12', records)).toHaveLength(1)
     expect(getParkProjectsForWard('7', records)).toHaveLength(0)
+  })
+})
+
+describe('contextualParkProjectCollection', () => {
+  it('keeps the full catalogue off the map until a park project is selected', () => {
+    const { records } = adaptParkFacilityProjects(sampleCollection(), {
+      excludeGlobalIds: new Set(),
+    })
+    expect(records.length).toBeGreaterThan(1)
+    expect(contextualParkProjectCollection(records, null).features).toEqual([])
+    expect(
+      contextualParkProjectCollection(records, 'municipal-not-a-park').features,
+    ).toEqual([])
+
+    const selectedId = records[0]!.id
+    expect(isParkFacilityProject(records[0]!)).toBe(true)
+    const contextual = contextualParkProjectCollection(records, selectedId)
+    expect(contextual.features).toHaveLength(1)
+    expect(contextual.features?.[0]?.properties?.id).toBe(selectedId)
   })
 })

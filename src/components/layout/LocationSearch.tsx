@@ -12,15 +12,25 @@ import {
 } from '../../data/geocoding/photon'
 import type { GeocodeResult } from '../../data/geocoding/types'
 import { validateLocationQuery } from '../../data/geocoding/validateQuery'
-import type { MapCameraApi } from '../../types/map'
+import type { LngLat, MapCameraApi } from '../../types/map'
 import styles from './LocationSearch.module.css'
 
 /** Debounce for Photon autocomplete — avoids a request on every keystroke. */
 const SUGGEST_DEBOUNCE_MS = 400
 
+export interface LocationSearchResolved {
+  label: string
+  coordinates: LngLat
+  kind: GeocodeResult['kind']
+}
+
 interface LocationSearchProps {
   camera: MapCameraApi | null
   onResolvedLabel?: (label: string) => void
+  /** Fired after a successful geocode selection (map already flies to centre). */
+  onLocationResolved?: (result: LocationSearchResolved) => void
+  /** Fired when the resident clears the search. */
+  onLocationCleared?: () => void
 }
 
 type UiStatus =
@@ -32,7 +42,12 @@ type UiStatus =
   | 'error'
   | 'selected'
 
-export function LocationSearch({ camera, onResolvedLabel }: LocationSearchProps) {
+export function LocationSearch({
+  camera,
+  onResolvedLabel,
+  onLocationResolved,
+  onLocationCleared,
+}: LocationSearchProps) {
   const listboxId = useId()
   const inputId = useId()
   const rootRef = useRef<HTMLDivElement>(null)
@@ -130,6 +145,11 @@ export function LocationSearch({ camera, onResolvedLabel }: LocationSearchProps)
     setActiveIndex(-1)
     setMessage(null)
     onResolvedLabel?.(result.label)
+    onLocationResolved?.({
+      label: result.label,
+      coordinates: result.coordinates,
+      kind: result.kind,
+    })
 
     camera?.flyToLocation({
       center: result.coordinates,
@@ -147,6 +167,7 @@ export function LocationSearch({ camera, onResolvedLabel }: LocationSearchProps)
     setSelected(null)
     setListOpen(false)
     setActiveIndex(-1)
+    onLocationCleared?.()
   }
 
   const submitNow = () => {

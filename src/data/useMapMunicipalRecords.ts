@@ -17,6 +17,8 @@ export interface MapMunicipalRecordsState {
   records: readonly MunicipalRecord[]
   loadState: MapRecordsLoadState
   publishedCount: number
+  /** Ids present as published Supabase rows (required for feedback RPC). */
+  publishedIds: ReadonlySet<string>
   errorMessage: string | null
 }
 
@@ -66,6 +68,7 @@ export function useMapMunicipalRecords(): MapMunicipalRecordsState {
     records: mergeStaticAndPublishedRecords(MUNICIPAL_RECORDS, published),
     loadState,
     publishedCount: published.length,
+    publishedIds: new Set(published.map((record) => record.id)),
     errorMessage,
   }
 }

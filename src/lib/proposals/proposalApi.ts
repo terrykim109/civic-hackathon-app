@@ -95,6 +95,7 @@ export async function saveProposal(
   record: MunicipalRecord,
   publicationStatus: PublicationStatus,
   actorUserId: string | null,
+  options: { createOnly?: boolean } = {},
 ): Promise<ProposalApiResult<ProposalDetail>> {
   const validation = validateProposal(record, { publicationStatus })
   if (!validation.ok) {
@@ -147,6 +148,14 @@ export async function saveProposal(
         createdAt: row.created_at,
         updatedAt: row.updated_at,
       },
+    }
+  }
+
+  if (options.createOnly) {
+    return {
+      ok: false,
+      error:
+        'A proposal with this record id already exists. Choose a different id.',
     }
   }
 

@@ -29,7 +29,7 @@ npm run dev
 
 Open the printed local URL (typically `http://localhost:5173`).
 
-Optional backend (Supabase) env vars are listed in [`.env.example`](.env.example). The map UI does not require them yet. See [`docs/SUPABASE.md`](docs/SUPABASE.md).
+Optional backend (Supabase) env vars are listed in [`.env.example`](.env.example). Without them the static map still works. See [`docs/SUPABASE.md`](docs/SUPABASE.md) and [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md).
 
 ## Scripts
 
@@ -45,12 +45,12 @@ Optional backend (Supabase) env vars are listed in [`.env.example`](.env.example
 ## Limitations
 
 - 3D buildings use OpenMapTiles `render_height` only where present; missing heights are treated as 0 (not invented).
-- Municipal markers load from the static `src/data/municipalRecords.json` FeatureCollection, merged with published Supabase `municipal_records` when configured; the detail panel is a preview only.
+- Municipal markers load from the static `src/data/municipalRecords.json` FeatureCollection, merged with published Supabase `municipal_records` when configured.
 - Toronto ward boundaries load from `src/data/wards.geojson` as navigation polygons (not impact areas).
 - Record locations are representative points, not surveyed parcels or impact boundaries.
 - Home camera uses browser geolocation when allowed; otherwise the Kennedy/Danforth case-study focus.
 - Map tiles require network access to OpenFreeMap.
-- Supabase RLS gates published public reads and admin writes; drafts/archived stay private. Feedback submission UI is not built yet.
+- Supabase RLS gates published public reads and admin writes; drafts/archived stay private. Resident feedback and the admin inbox require configured Supabase + provisioned admins.
 
 ## Data Documentation
 
